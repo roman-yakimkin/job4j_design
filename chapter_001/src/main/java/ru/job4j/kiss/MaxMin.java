@@ -2,6 +2,8 @@ package ru.job4j.kiss;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.BinaryOperator;
+import java.util.function.Predicate;
 
 /**
  * Тестовый класс для поиска максимального и минимального значения
@@ -11,23 +13,43 @@ import java.util.List;
  */
 public class MaxMin {
 
-    public <T> T max(List<T> value, Comparator<T> comparator) {
+    /**
+     * Универсальная функция для поиска минимального и максимального значений
+     * @param value - список для поиска
+     * @param comparator - компаратор
+     * @param signExpected - ожидаемый знак компаратора
+     * @param <T> - результат
+     * @return
+     */
+    public <T> T findElem(List<T> value, Comparator<T> comparator, Integer signExpected) {
         T result = value.get(0);
         for (T element : value) {
-            if (comparator.compare(element, result) > 0) {
+            if ( Integer.signum(comparator.compare(element, result)) == signExpected ) {
                 result = element;
             }
         }
         return result;
     }
 
+    /**
+     * Поиск максимального значения
+     * @param value - список для поиска
+     * @param comparator - компаратор
+     * @param <T> - ожидаемый знак компаратора
+     * @return - максимальное значение
+     */
+    public <T> T max(List<T> value, Comparator<T> comparator) {
+        return findElem(value, comparator, 1);
+    }
+
+    /**
+     * Поиск мимимального значения
+     * @param value - список для поиска
+     * @param comparator - компаратор
+     * @param <T> - ожидаемый знак компаратора
+     * @return - минимальное значение
+     */
     public <T> T min(List<T> value, Comparator<T> comparator) {
-        T result = value.get(0);
-        for (T element : value) {
-            if (comparator.compare(element, result) < 0) {
-                result = element;
-            }
-        }
-        return result;
+        return findElem(value, comparator, -1);
     }
 }
