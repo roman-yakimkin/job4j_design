@@ -11,8 +11,8 @@ import static org.hamcrest.core.Is.is;
 
 public class GeneratorTest {
 
-    @Test @Ignore
-    public void produceCorrect() {
+    @Test
+    public void produceCorrect() throws SuperfluousInTemplateException, SuperfluousInArgsException {
         Generator generator = new TemplateGenerator();
         String template = "I am ${name}, who are ${subject}?";
         Map<String, Object> args = Map.of(
@@ -24,8 +24,8 @@ public class GeneratorTest {
         assertThat(result, is(expected));
     }
 
-    @Test(expected = SuperfluousInTemplateException.class) @Ignore
-    public void superfluousInTemplate() throws SuperfluousInTemplateException {
+    @Test(expected = SuperfluousInTemplateException.class)
+    public void superfluousInTemplate() throws SuperfluousInTemplateException, SuperfluousInArgsException {
         Generator generator = new TemplateGenerator();
         String template = "I am ${name}, my surname is ${surname}, who are ${subject}?";
         Map<String, Object> args = Map.of(
@@ -37,8 +37,8 @@ public class GeneratorTest {
         assertThat(result, is(expected));
     }
 
-    @Test(expected = SuperfluousInArgsException.class) @Ignore
-    public void superfluousInTemplate() throws SuperfluousInArgsException {
+    @Test(expected = SuperfluousInArgsException.class)
+    public void superfluousInArgs() throws SuperfluousInArgsException, SuperfluousInTemplateException {
         Generator generator = new TemplateGenerator();
         String template = "I am ${name}, who are ${subject}?";
         Map<String, Object> args = Map.of(
