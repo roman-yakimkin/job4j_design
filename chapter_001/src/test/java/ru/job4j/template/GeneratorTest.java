@@ -1,5 +1,6 @@
 package ru.job4j.template;
 
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -24,18 +25,20 @@ public class GeneratorTest {
     }
 
     @Test(expected = SuperfluousInTemplateException.class) @Ignore
-    public void superfluousInTemplate() throws SuperfluousInTemplateException{
+    public void superfluousInTemplate() throws SuperfluousInTemplateException {
         Generator generator = new TemplateGenerator();
         String template = "I am ${name}, my surname is ${surname}, who are ${subject}?";
         Map<String, Object> args = Map.of(
                 "name", "John",
                 "subject", "you"
         );
-        generator.produce(template, args);
+        String result = generator.produce(template, args);
+        String expected = "I am John, my surname is ${surname}, who are you?";
+        assertThat(result, is(expected));
     }
 
     @Test(expected = SuperfluousInArgsException.class) @Ignore
-    public void superfluousInTemplate() throws SuperfluousInArgsException{
+    public void superfluousInTemplate() throws SuperfluousInArgsException {
         Generator generator = new TemplateGenerator();
         String template = "I am ${name}, who are ${subject}?";
         Map<String, Object> args = Map.of(
@@ -43,6 +46,8 @@ public class GeneratorTest {
                 "surname", "Lennon",
                 "subject", "you"
         );
-        generator.produce(template, args);
+        String result = generator.produce(template, args);
+        String expected = "I am John, who are you?";
+        assertThat(result, is(expected));
     }
 }
