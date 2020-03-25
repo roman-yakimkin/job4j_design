@@ -5,15 +5,9 @@ import java.util.function.Predicate;
 /**
  * Система отчетов по сотрудниками
  */
-public class ReportEngine {
-    private Store store;
-
+public class ReportEngine extends BaseReportEngine implements IReportEngine {
     public ReportEngine(Store store) {
-        this.store = store;
-    }
-
-    public Store getStore() {
-        return store;
+        super(store);
     }
 
     /**
@@ -25,7 +19,7 @@ public class ReportEngine {
         StringBuilder text = new StringBuilder();
         text.append("Name; Hired; Fired; Salary;")
             .append(System.lineSeparator());
-        for (Employee employee : store.findBy(filter)) {
+        for (Employee employee : getStore().findBy(filter)) {
             text.append(employee.getName()).append(";")
                     .append(employee.getHired()).append(";")
                     .append(employee.getFired()).append(";")

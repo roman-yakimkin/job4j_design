@@ -8,7 +8,7 @@ import java.util.function.Predicate;
  * @since 21.03.2020
  * @version 1.0
  */
-public class ITReportEngine extends ReportEngine {
+public class ITReportEngine extends BaseReportEngine implements IReportEngine {
 
     public ITReportEngine(Store store) {
         super(store);

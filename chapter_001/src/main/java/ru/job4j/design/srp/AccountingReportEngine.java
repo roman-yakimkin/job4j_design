@@ -3,7 +3,7 @@ package ru.job4j.design.srp;
 import java.io.PrintStream;
 import java.util.function.Predicate;
 
-public class AccountingReportEngine extends ReportEngine {
+public class AccountingReportEngine extends BaseReportEngine implements IReportEngine {
     public AccountingReportEngine(Store store) {
         super(store);
     }

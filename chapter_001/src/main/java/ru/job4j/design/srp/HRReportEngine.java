@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  * @since 21.03.2020
  * @version 1.0
  */
-public class HRReportEngine extends ReportEngine {
+public class HRReportEngine extends BaseReportEngine implements IReportEngine {
     public HRReportEngine(Store store) {
         super(store);
     }
