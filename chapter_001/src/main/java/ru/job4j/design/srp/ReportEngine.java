@@ -5,7 +5,7 @@ import java.util.function.Predicate;
 /**
  * Система отчетов по сотрудниками
  */
-public class ReportEngine extends BaseReportEngine implements IReportEngine {
+public class ReportEngine extends BaseReportEngine {
     public ReportEngine(Store store) {
         super(store);
     }

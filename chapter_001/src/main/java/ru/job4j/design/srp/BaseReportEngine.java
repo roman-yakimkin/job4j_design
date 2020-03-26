@@ -2,7 +2,7 @@ package ru.job4j.design.srp;
 
 import java.util.function.Predicate;
 
-public class BaseReportEngine {
+abstract public class BaseReportEngine {
     private Store store;
     public BaseReportEngine(Store store) {
         this.store = store;
@@ -10,4 +10,5 @@ public class BaseReportEngine {
     public Store getStore() {
         return store;
     }
+    abstract public String generate(Predicate<Employee> filter);
 }
