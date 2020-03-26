@@ -21,7 +21,7 @@ public class AccountingReportEngineTest {
                 .append(worker.getName()).append(";")
                 .append(worker.getHired()).append(";")
                 .append(worker.getFired()).append(";")
-                .append(engine.getFormattedSalary(worker.getSalary())).append(";")
+                .append(AccountingReportEngine.getFormattedSalary(worker.getSalary())).append(";")
                 .append(System.lineSeparator());
         assertThat(engine.generate(em -> true), is(expect.toString()));
     }

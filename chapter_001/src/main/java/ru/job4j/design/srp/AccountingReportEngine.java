@@ -13,7 +13,7 @@ public class AccountingReportEngine extends BaseReportEngine {
      * @param salary - исходная зарплата
      * @return - зарплата в отформатированном виде
      */
-    public String getFormattedSalary(double salary) {
+    public static String getFormattedSalary(double salary) {
         String[] values = String.valueOf(salary).split("\\.");
         String roubles = values[0];
         String kopecks = (values.length == 2) ? values[1] : "00";
