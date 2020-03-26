@@ -29,9 +29,8 @@ public class TemplateGenerator implements Generator {
         for(String key : args.keySet()) {
             if (!template.contains("${" + key + "}")) {
                 throw new SuperfluousInArgsException("There are some superfluous keys in args");
-            } else {
-                template = template.replaceAll("\\$\\{" + key + "}", args.get(key).toString());
             }
+            template = template.replaceAll("\\$\\{" + key + "}", args.get(key).toString());
         }
 
         if (getSubst(template).size() > 0) {
