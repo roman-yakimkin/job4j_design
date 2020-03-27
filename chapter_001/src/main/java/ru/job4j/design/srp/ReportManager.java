@@ -9,7 +9,7 @@ import java.util.function.Predicate;
  * @version 1.0
  */
 public class ReportManager {
-    BaseReportEngine reportEngine;
+    IReportEngine reportEngine;
 
     public ReportManager(BaseReportEngine reportEngine) {
         this.reportEngine = reportEngine;

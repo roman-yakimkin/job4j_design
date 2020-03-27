@@ -14,7 +14,7 @@ public class AccountingReportEngineTest {
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100.50);
         store.add(worker);
-        AccountingReportEngine engine = new AccountingReportEngine(store);
+        IReportEngine engine = new AccountingReportEngine(store);
         StringBuilder expect = new StringBuilder()
                 .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())
