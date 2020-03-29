@@ -1,5 +1,7 @@
 package ru.job4j.design.srp;
 
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 abstract public class BaseReportEngine implements IReportEngine {

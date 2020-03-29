@@ -3,14 +3,13 @@ package ru.job4j.design.srp;
 import java.util.function.Predicate;
 
 /**
- * Генератор отчетов для IT - службы
+ * Генератор отчета в формате HTML
  * @author Roman Yakimkin (r.yakimkin@yandex.ru)
- * @since 21.03.2020
  * @version 1.0
+ * @since 29.03.2020
  */
-public class ITReportEngine extends BaseReportEngine {
-
-    public ITReportEngine(Store store) {
+public class HTMLReportEngine extends BaseReportEngine {
+    public HTMLReportEngine(Store store) {
         super(store);
     }
 
@@ -25,7 +24,7 @@ public class ITReportEngine extends BaseReportEngine {
                     .append("<td>").append(employee.getHired()).append("</td>")
                     .append("<td>").append(employee.getFired()).append("</td>")
                     .append("<td>").append(employee.getSalary()).append("</td>")
-                  .append("</tr>");
+                    .append("</tr>");
         }
         text.append("</table>");
         return text.toString();

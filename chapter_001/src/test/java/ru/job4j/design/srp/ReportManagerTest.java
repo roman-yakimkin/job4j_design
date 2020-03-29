@@ -95,4 +95,74 @@ public class ReportManagerTest {
         assertThat(rm.generate(em -> true), is(expect.toString()));
     }
 
+    @Test
+    public void testJSON() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        ReportManager rm = new ReportManager(new JSONReportEngine(store));
+        StringBuilder expect = new StringBuilder()
+                .append("{")
+                .append(System.lineSeparator())
+                .append("   {")
+                .append(System.lineSeparator()).append("      \"name\": \"").append(worker.getName()).append("\"")
+                .append(System.lineSeparator()).append("      \"hired\": \"").append(worker.getHired()).append("\"")
+                .append(System.lineSeparator()).append("      \"fired\": \"").append(worker.getFired()).append("\"")
+                .append(System.lineSeparator()).append("      \"salary\": \"").append(worker.getSalary()).append("\"")
+                .append(System.lineSeparator())
+                .append("   }").append(System.lineSeparator())
+                .append("}");
+        assertThat(rm.generate(em -> true), is(expect.toString()));
+
+    }
+
+    @Test
+    public void testXML() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        ReportManager rm = new ReportManager(new XMLReportEngine(store));
+        StringBuilder expect = new StringBuilder()
+                .append("<?xml version=\"1.1\" encoding=\"UTF-8\" ?>").append(System.lineSeparator())
+                .append("<employees>")
+                .append(System.lineSeparator())
+                .append("   <employee>").append(System.lineSeparator())
+                .append("      <name>").append(System.lineSeparator())
+                .append("          ").append(worker.getName()).append(System.lineSeparator())
+                .append("      </name>").append(System.lineSeparator())
+                .append("      <hired>").append(System.lineSeparator())
+                .append("          ").append(worker.getHired()).append(System.lineSeparator())
+                .append("      </hired>").append(System.lineSeparator())
+                .append("      <fired>").append(System.lineSeparator())
+                .append("          ").append(worker.getFired()).append(System.lineSeparator())
+                .append("      </fired>").append(System.lineSeparator())
+                .append("      <salary>").append(System.lineSeparator())
+                .append("          ").append(worker.getSalary()).append(System.lineSeparator())
+                .append("      </salary>").append(System.lineSeparator())
+                .append("   </employee>").append(System.lineSeparator())
+                .append("</employees>");
+        assertThat(rm.generate(em -> true), is(expect.toString()));
+    }
+
+    @Test
+    public void testHTMLReport() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        ReportManager rm = new ReportManager(new HTMLReportEngine(store));
+        StringBuilder expect = new StringBuilder()
+                .append("<table>")
+                .append("<tr><th>Name</th><th>Hired</th><th>Fired</th><th>Salary</th></tr>")
+                .append("<tr>")
+                .append("<td>").append(worker.getName()).append("</td>")
+                .append("<td>").append(worker.getHired()).append("</td>")
+                .append("<td>").append(worker.getFired()).append("</td>")
+                .append("<td>").append(worker.getSalary()).append("</td>")
+                .append("</tr>")
+                .append("</table>");
+        assertThat(rm.generate(em -> true), is(expect.toString()));
+    }
 }
