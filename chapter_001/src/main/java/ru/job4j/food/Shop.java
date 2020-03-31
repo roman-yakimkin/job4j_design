@@ -1,14 +1,27 @@
 package ru.job4j.food;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class Shop extends FoodStorage {
+public class Shop implements IFoodStorage {
 
+    private List<IFood> foodStorage;
+    private IFoodStoragePermissions permissions;
     private Date currentDate;
 
-    public Shop(Date currentDay) {
-        super();
-        this.currentDate = currentDay;
+    public Shop(IFoodStoragePermissions permissions, Date currentDate) {
+        foodStorage = new ArrayList<>();
+        this.permissions = permissions;
+        this.currentDate = currentDate;
+    }
+
+    public IFoodStoragePermissions getPermissions() {
+        return permissions;
+    }
+
+    public List<IFood> getFoodStorage() {
+        return foodStorage;
     }
 
     public Date getCurrentDate() {
@@ -28,19 +41,15 @@ public class Shop extends FoodStorage {
         return (byte) 50;
     }
 
-    public boolean shouldBeAdded(IFood food, Date aDate) {
-        return (food.getStorageLifeInPercents(aDate) >= 25.0 && food.getStorageLifeInPercents(aDate) < 100.0) ;
-    }
-
-    public boolean shouldBeRemoved(IFood food, Date aDate) {
-        return ((food.getStorageLifeInPercents(aDate) < 25.0) || ((food.getStorageLifeInPercents(aDate) >= 100.0)));
-    }
-
     @Override
-    public void addFood(IFood food) {
+    public boolean addFood(IFood food) {
         if (food.getStorageLifeInPercents(this.currentDate) >= 75.0) {
             food.setDiscount(this.calcDiscount(food));
         }
-        super.addFood(food);
+        return this.getFoodStorage().add(food);
+    }
+
+    public boolean removeFood(IFood food) {
+        return this.getFoodStorage().remove(food);
     }
 }

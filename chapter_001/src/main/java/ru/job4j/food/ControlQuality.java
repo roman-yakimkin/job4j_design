@@ -35,7 +35,7 @@ public class ControlQuality {
             Iterator<IFood> iter = storage.getFoodStorage().iterator();
             while (iter.hasNext()) {
                 IFood food = iter.next();
-                if (storage.shouldBeRemoved(food, aDate)) {
+                if (storage.getPermissions().shouldBeRemoved(food, aDate)) {
                     temporary.add(food);
                     iter.remove();
                 }
@@ -44,7 +44,7 @@ public class ControlQuality {
 
         for (IFood food : temporary) {
             for (IFoodStorage storage : storages) {
-                if (storage.shouldBeAdded(food, aDate)) {
+                if (storage.getPermissions().shouldBeAdded(food, aDate)) {
                     storage.addFood(food);
                 }
             }

@@ -1,6 +1,8 @@
 package ru.job4j.food;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Класс - склад товаров
@@ -8,15 +10,28 @@ import java.util.Date;
  * @since 30.03.2020
  * @version 1.0
  */
-public class Warehouse extends FoodStorage {
+public class Warehouse implements IFoodStorage {
 
-    @Override
-    public boolean shouldBeAdded(IFood food, Date aDate) {
-        return (food.getStorageLifeInPercents(aDate) < 25.0);
+    private List<IFood> foodStorage;
+    private IFoodStoragePermissions permissions;
+
+    public Warehouse(IFoodStoragePermissions permissions) {
+        foodStorage = new ArrayList<>();
+        this.permissions = permissions;
     }
 
-    @Override
-    public boolean shouldBeRemoved(IFood food, Date aDate) {
-        return (food.getStorageLifeInPercents(aDate) >= 25.0);
+    public IFoodStoragePermissions getPermissions() {
+        return permissions;
+    }
+
+    public List<IFood> getFoodStorage() {
+        return foodStorage;
+    }
+
+    public boolean addFood(IFood food) {
+        return this.getFoodStorage().add(food);
+    }
+    public boolean removeFood(IFood food) {
+        return this.getFoodStorage().remove(food);
     }
 }

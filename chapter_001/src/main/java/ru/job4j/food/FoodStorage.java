@@ -21,12 +21,12 @@ abstract public class FoodStorage implements IFoodStorage {
         return foodStorage;
     }
 
-    public void addFood(IFood food) {
-        this.foodStorage.add(food);
+    public boolean addFood(IFood food) {
+        return this.foodStorage.add(food);
     }
 
-    public void removeFood(IFood food) {
-        this.foodStorage.remove(food);
+    public boolean removeFood(IFood food) {
+        return this.foodStorage.remove(food);
     }
 
     abstract public boolean shouldBeAdded(IFood food, Date aDate);
