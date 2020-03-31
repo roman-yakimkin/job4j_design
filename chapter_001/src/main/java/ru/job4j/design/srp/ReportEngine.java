@@ -5,9 +5,20 @@ import java.util.function.Predicate;
 /**
  * Система отчетов по сотрудниками
  */
-public class ReportEngine extends BaseReportEngine {
+public class ReportEngine implements IReportEngine {
+    Store store;
+
     public ReportEngine(Store store) {
-        super(store);
+        this.store = store;
+    }
+
+    @Override
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
     }
 
     /**

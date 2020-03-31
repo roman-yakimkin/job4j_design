@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 public class ReportManager {
     IReportEngine reportEngine;
 
-    public ReportManager(BaseReportEngine reportEngine) {
+    public ReportManager(IReportEngine reportEngine) {
         this.reportEngine = reportEngine;
     }
 

@@ -8,9 +8,20 @@ import java.util.function.Predicate;
  * @version 1.0
  * @since 29.03.2020
  */
-public class HTMLReportEngine extends BaseReportEngine {
+public class HTMLReportEngine implements IReportEngine {
+    Store store;
+
     public HTMLReportEngine(Store store) {
-        super(store);
+        this.store = store;
+    }
+
+    @Override
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
     }
 
     @Override

@@ -8,9 +8,20 @@ import java.util.function.Predicate;
  * @since 29.03.2020
  * @version 1.0
  */
-public class JSONReportEngine extends BaseReportEngine {
+public class JSONReportEngine implements IReportEngine {
+    Store store;
+
     public JSONReportEngine(Store store) {
-        super(store);
+        this.store = store;
+    }
+
+    @Override
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
     }
 
     @Override
