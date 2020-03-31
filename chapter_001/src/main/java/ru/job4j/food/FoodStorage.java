@@ -10,25 +10,29 @@ import java.util.List;
  * @since 30.03.2020
  * @version 1.0
  */
-abstract public class FoodStorage implements IFoodStorage {
+public class FoodStorage implements IFoodStorage {
     private List<IFood> foodStorage;
+    private IFoodStoragePermissions permissions;
+    private IFoodStorageActions actions;
 
-    public FoodStorage() {
-        foodStorage = new ArrayList<>();
+    public FoodStorage(IFoodStoragePermissions permissions, IFoodStorageActions actions) {
+        this.foodStorage = new ArrayList<>();
+        this.permissions = permissions;
+        this.actions = actions;
+        this.actions.setStorage(this);
     }
 
     public List<IFood> getFoodStorage() {
         return foodStorage;
     }
 
-    public boolean addFood(IFood food) {
-        return this.foodStorage.add(food);
+    @Override
+    public IFoodStoragePermissions getPermissions() {
+        return permissions;
     }
 
-    public boolean removeFood(IFood food) {
-        return this.foodStorage.remove(food);
+    @Override
+    public IFoodStorageActions getActions() {
+        return actions;
     }
-
-    abstract public boolean shouldBeAdded(IFood food, Date aDate);
-    abstract public boolean shouldBeRemoved(IFood food, Date aDate);
 }

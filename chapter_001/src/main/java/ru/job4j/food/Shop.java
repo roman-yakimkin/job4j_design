@@ -20,36 +20,12 @@ public class Shop implements IFoodStorage {
         return permissions;
     }
 
+    @Override
+    public IFoodStorageActions getActions() {
+        return null;
+    }
+
     public List<IFood> getFoodStorage() {
         return foodStorage;
-    }
-
-    public Date getCurrentDate() {
-        return currentDate;
-    }
-
-    public void setCurrentDate(Date currentDate) {
-        this.currentDate = currentDate;
-    }
-
-    /**
-     * Функция для расчета размера скидки в зависимости от продукта и даты расчета
-     * @param food - продукт
-     * @return размер скидки в процентах
-     */
-    private byte calcDiscount(IFood food) {
-        return (byte) 50;
-    }
-
-    @Override
-    public boolean addFood(IFood food) {
-        if (food.getStorageLifeInPercents(this.currentDate) >= 75.0) {
-            food.setDiscount(this.calcDiscount(food));
-        }
-        return this.getFoodStorage().add(food);
-    }
-
-    public boolean removeFood(IFood food) {
-        return this.getFoodStorage().remove(food);
     }
 }

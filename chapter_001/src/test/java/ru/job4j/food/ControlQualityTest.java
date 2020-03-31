@@ -19,10 +19,11 @@ public class ControlQualityTest {
         Date currentDate = df.parse("2015-02-10");
         ControlQuality cq = new ControlQuality(currentDate);
         IFood eggs = new Food("Eggs", df.parse("2015-01-01"), df.parse("2015-02-01"), 100);
-        IFoodStorage warehouse = new Warehouse(new WarehousePermissions());
-        warehouse.addFood(eggs);
-        IFoodStorage shop = new Shop(new ShopPermissions(), currentDate);
-        IFoodStorage trash = new Trash(new TrashPermissions());
+
+        IFoodStorage warehouse = new FoodStorage(new WarehousePermissions(), new DefaultFoodStorageActions());
+        warehouse.getActions().addFood(eggs);
+        IFoodStorage shop = new FoodStorage(new ShopPermissions(), new ShopActions(currentDate));
+        IFoodStorage trash = new FoodStorage(new TrashPermissions(), new DefaultFoodStorageActions());
         cq.addStorage(warehouse);
         cq.addStorage(shop);
         cq.addStorage(trash);
@@ -38,10 +39,12 @@ public class ControlQualityTest {
         Date currentDate = df.parse("2015-01-12");
         ControlQuality cq = new ControlQuality(currentDate);
         IFood eggs = new Food("Eggs", df.parse("2015-01-01"), df.parse("2015-02-01"), 100);
-        IFoodStorage warehouse = new Warehouse(new WarehousePermissions());
-        warehouse.addFood(eggs);
-        IFoodStorage shop = new Shop(new ShopPermissions(), currentDate);
-        IFoodStorage trash = new Trash(new TrashPermissions());
+
+        IFoodStorage warehouse = new FoodStorage(new WarehousePermissions(), new DefaultFoodStorageActions());
+        warehouse.getActions().addFood(eggs);
+        IFoodStorage shop = new FoodStorage(new ShopPermissions(), new ShopActions(currentDate));
+        IFoodStorage trash = new FoodStorage(new TrashPermissions(), new DefaultFoodStorageActions());
+
         cq.addStorage(warehouse);
         cq.addStorage(shop);
         cq.addStorage(trash);
@@ -57,10 +60,13 @@ public class ControlQualityTest {
         Date currentDate = df.parse("2015-01-29");
         ControlQuality cq = new ControlQuality(currentDate);
         IFood eggs = new Food("Eggs", df.parse("2015-01-01"), df.parse("2015-02-01"), 100);
-        IFoodStorage warehouse = new Warehouse(new WarehousePermissions());
-        IFoodStorage shop = new Shop(new ShopPermissions(), currentDate);
-        shop.addFood(eggs);
-        IFoodStorage trash = new Trash(new TrashPermissions());
+
+        IFoodStorage warehouse = new FoodStorage(new WarehousePermissions(), new DefaultFoodStorageActions());
+        warehouse.getActions().addFood(eggs);
+        IFoodStorage shop = new FoodStorage(new ShopPermissions(), new ShopActions(currentDate));
+        shop.getActions().addFood(eggs);
+        IFoodStorage trash = new FoodStorage(new TrashPermissions(), new DefaultFoodStorageActions());
+
         cq.addStorage(warehouse);
         cq.addStorage(shop);
         cq.addStorage(trash);

@@ -23,6 +23,11 @@ public class Trash implements IFoodStorage {
         return permissions;
     }
 
+    @Override
+    public IFoodStorageActions getActions() {
+        return null;
+    }
+
     public List<IFood> getFoodStorage() {
         return foodStorage;
     }

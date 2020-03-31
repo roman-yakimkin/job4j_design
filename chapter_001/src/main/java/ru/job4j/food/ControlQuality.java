@@ -45,7 +45,7 @@ public class ControlQuality {
         for (IFood food : temporary) {
             for (IFoodStorage storage : storages) {
                 if (storage.getPermissions().shouldBeAdded(food, aDate)) {
-                    storage.addFood(food);
+                    storage.getActions().addFood(food);
                 }
             }
         }
