@@ -14,7 +14,7 @@ public class HTMLReportEngineTest {
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
-        IReportEngine engine = new HTMLReportEngine(store);
+        IReportEngine engine = new ReportEngine(store, new HTMLReportGenerate());
         StringBuilder expect = new StringBuilder()
                 .append("<table>")
                 .append("<tr><th>Name</th><th>Hired</th><th>Fired</th><th>Salary</th></tr>")
