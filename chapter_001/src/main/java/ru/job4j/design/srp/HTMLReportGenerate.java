@@ -1,35 +1,21 @@
 package ru.job4j.design.srp;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 /**
- * Генератор отчета в формате HTML
- * @author Roman Yakimkin (r.yakimkin@yandex.ru)
+ * Генерация отчета в формате HTML
+ * @author Roman Yakimkin
+ * @since 04.04.2020
  * @version 1.0
- * @since 29.03.2020
  */
-public class HTMLReportEngine implements IReportEngine {
-    Store store;
-
-    public HTMLReportEngine(Store store) {
-        this.store = store;
-    }
-
+public class HTMLReportGenerate implements IReportGenerate {
     @Override
-    public Store getStore() {
-        return store;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
-    }
-
-    @Override
-    public String generate(Predicate<Employee> filter) {
+    public String generate(List<Employee> employeeList) {
         StringBuilder text = new StringBuilder();
         text.append("<table>");
         text.append("<tr><th>Name</th><th>Hired</th><th>Fired</th><th>Salary</th></tr>");
-        for (Employee employee : getStore().findBy(filter)) {
+        for (Employee employee : employeeList) {
             text.append("<tr>")
                     .append("<td>").append(employee.getName()).append("</td>")
                     .append("<td>").append(employee.getHired()).append("</td>")
@@ -40,4 +26,5 @@ public class HTMLReportEngine implements IReportEngine {
         text.append("</table>");
         return text.toString();
     }
+
 }

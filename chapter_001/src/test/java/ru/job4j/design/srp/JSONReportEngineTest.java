@@ -14,7 +14,7 @@ public class JSONReportEngineTest {
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
-        IReportEngine engine = new JSONReportEngine(store);
+        IReportEngine engine = new ReportEngine(store, new JSONReportGenerate());
         StringBuilder expect = new StringBuilder()
                 .append("{")
                 .append(System.lineSeparator())

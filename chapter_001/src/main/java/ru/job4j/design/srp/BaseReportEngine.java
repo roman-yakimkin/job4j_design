@@ -4,13 +4,30 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-abstract public class BaseReportEngine implements IReportEngine {
+public class BaseReportEngine implements IReportEngine {
     private Store store;
-    public BaseReportEngine(Store store) {
+    private IReportGenerate reportGenerate;
+    public BaseReportEngine(Store store, IReportGenerate reportGenerate) {
         this.store = store;
+        this.reportGenerate = reportGenerate;
     }
+
+    @Override
     public Store getStore() {
         return store;
     }
-    abstract public String generate(Predicate<Employee> filter);
+
+    @Override
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    public IReportGenerate getReportGenerate() {
+        return reportGenerate;
+    }
+
+    @Override
+    public String generate(Predicate<Employee> filter) {
+        return reportGenerate.generate(store.findBy(filter));
+    };
 }

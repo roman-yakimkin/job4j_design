@@ -14,7 +14,7 @@ public class XMLReportEngineTest {
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
-        IReportEngine engine = new XMLReportEngine(store);
+        IReportEngine engine = new ReportEngine(store, new XMLReportGenerate());
         StringBuilder expect = new StringBuilder()
             .append("<?xml version=\"1.1\" encoding=\"UTF-8\" ?>").append(System.lineSeparator())
                 .append("<employees>")

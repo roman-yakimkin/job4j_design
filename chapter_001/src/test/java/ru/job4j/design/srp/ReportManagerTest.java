@@ -15,7 +15,7 @@ public class ReportManagerTest {
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
 
-        ReportManager rm = new ReportManager(new ReportEngine(store));
+        ReportManager rm = new ReportManager(new ReportEngine(store, new DefaultReportGenerate()));
         StringBuilder expect = new StringBuilder()
                 .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())
@@ -33,7 +33,7 @@ public class ReportManagerTest {
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
-        ReportManager rm = new ReportManager(new ITReportEngine(store));
+        ReportManager rm = new ReportManager(new ITReportEngine(store, new HTMLReportGenerate()));
         StringBuilder expect = new StringBuilder()
                 .append("<table>")
                 .append("<tr><th>Name</th><th>Hired</th><th>Fired</th><th>Salary</th></tr>")
@@ -57,7 +57,7 @@ public class ReportManagerTest {
         store.add(worker1);
         store.add(worker2);
         store.add(worker3);
-        ReportManager rm = new ReportManager(new HRReportEngine(store));
+        ReportManager rm = new ReportManager(new HRReportEngine(store, new HRReportGenerate()));
         StringBuilder expect = new StringBuilder()
                 .append("Name; Salary;")
                 .append(System.lineSeparator())
@@ -83,14 +83,14 @@ public class ReportManagerTest {
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100.50);
         store.add(worker);
-        ReportManager rm = new ReportManager(new AccountingReportEngine(store));
+        ReportManager rm = new ReportManager(new AccountingReportEngine(store, new AccountingReportGenerate()));
         StringBuilder expect = new StringBuilder()
                 .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())
                 .append(worker.getName()).append(";")
                 .append(worker.getHired()).append(";")
                 .append(worker.getFired()).append(";")
-                .append(AccountingReportEngine.getFormattedSalary(worker.getSalary())).append(";")
+                .append(AccountingReportGenerate.getFormattedSalary(worker.getSalary())).append(";")
                 .append(System.lineSeparator());
         assertThat(rm.generate(em -> true), is(expect.toString()));
     }
@@ -101,7 +101,7 @@ public class ReportManagerTest {
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
-        ReportManager rm = new ReportManager(new JSONReportEngine(store));
+        ReportManager rm = new ReportManager(new ReportEngine(store, new JSONReportGenerate()));
         StringBuilder expect = new StringBuilder()
                 .append("{")
                 .append(System.lineSeparator())
@@ -123,7 +123,7 @@ public class ReportManagerTest {
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
-        ReportManager rm = new ReportManager(new XMLReportEngine(store));
+        ReportManager rm = new ReportManager(new ReportEngine(store, new XMLReportGenerate()));
         StringBuilder expect = new StringBuilder()
                 .append("<?xml version=\"1.1\" encoding=\"UTF-8\" ?>").append(System.lineSeparator())
                 .append("<employees>")
@@ -152,7 +152,7 @@ public class ReportManagerTest {
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
-        ReportManager rm = new ReportManager(new HTMLReportEngine(store));
+        ReportManager rm = new ReportManager(new ReportEngine(store, new HTMLReportGenerate()));
         StringBuilder expect = new StringBuilder()
                 .append("<table>")
                 .append("<tr><th>Name</th><th>Hired</th><th>Fired</th><th>Salary</th></tr>")
