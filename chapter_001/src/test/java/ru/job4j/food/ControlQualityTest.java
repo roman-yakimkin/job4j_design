@@ -21,7 +21,7 @@ public class ControlQualityTest {
         IFood eggs = new Food("Eggs", df.parse("2015-01-01"), df.parse("2015-02-01"), 100);
 
         IFoodStorage warehouse = new FoodStorage(new WarehousePermissions(), new DefaultFoodStorageActions());
-        warehouse.getActions().addFood(eggs);
+        warehouse.addFood(eggs);
         IFoodStorage shop = new FoodStorage(new ShopPermissions(), new ShopActions(currentDate));
         IFoodStorage trash = new FoodStorage(new TrashPermissions(), new DefaultFoodStorageActions());
         cq.addStorage(warehouse);
@@ -29,8 +29,8 @@ public class ControlQualityTest {
         cq.addStorage(trash);
 
         cq.rearrangeFood();
-        assertThat(warehouse.getFoodStorage().contains(eggs), is(false));
-        assertThat(trash.getFoodStorage().contains(eggs), is(true));
+        assertThat(warehouse.contains(eggs), is(false));
+        assertThat(trash.contains(eggs), is(true));
     }
 
     @Test
@@ -41,7 +41,7 @@ public class ControlQualityTest {
         IFood eggs = new Food("Eggs", df.parse("2015-01-01"), df.parse("2015-02-01"), 100);
 
         IFoodStorage warehouse = new FoodStorage(new WarehousePermissions(), new DefaultFoodStorageActions());
-        warehouse.getActions().addFood(eggs);
+        warehouse.addFood(eggs);
         IFoodStorage shop = new FoodStorage(new ShopPermissions(), new ShopActions(currentDate));
         IFoodStorage trash = new FoodStorage(new TrashPermissions(), new DefaultFoodStorageActions());
 
@@ -50,8 +50,8 @@ public class ControlQualityTest {
         cq.addStorage(trash);
 
         cq.rearrangeFood();
-        assertThat(warehouse.getFoodStorage().contains(eggs), is(false));
-        assertThat(shop.getFoodStorage().contains(eggs), is(true));
+        assertThat(warehouse.contains(eggs), is(false));
+        assertThat(shop.contains(eggs), is(true));
     }
 
     @Test
@@ -62,9 +62,9 @@ public class ControlQualityTest {
         IFood eggs = new Food("Eggs", df.parse("2015-01-01"), df.parse("2015-02-01"), 100);
 
         IFoodStorage warehouse = new FoodStorage(new WarehousePermissions(), new DefaultFoodStorageActions());
-        warehouse.getActions().addFood(eggs);
+        warehouse.addFood(eggs);
         IFoodStorage shop = new FoodStorage(new ShopPermissions(), new ShopActions(currentDate));
-        shop.getActions().addFood(eggs);
+        shop.addFood(eggs);
         IFoodStorage trash = new FoodStorage(new TrashPermissions(), new DefaultFoodStorageActions());
 
         cq.addStorage(warehouse);
@@ -72,7 +72,7 @@ public class ControlQualityTest {
         cq.addStorage(trash);
 
         cq.rearrangeFood();
-        assertThat(shop.getFoodStorage().contains(eggs), is(true));
+        assertThat(shop.contains(eggs), is(true));
         assertThat(eggs.getDiscount(), is((byte) 50));
     }
 }

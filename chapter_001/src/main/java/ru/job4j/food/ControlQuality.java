@@ -12,14 +12,12 @@ import java.util.List;
  * @since 30.03.2020
  */
 public class ControlQuality {
-    Date aDate;
-    List<IFoodStorage> storages;
-    List<IFood> temporary;
+    private Date aDate;
+    private List<IFoodStorage> storages = new ArrayList<>();
+    private List<IFood> temporary = new ArrayList<>();
 
     public ControlQuality(Date aDate) {
         this.aDate = aDate;
-        storages = new ArrayList<>();
-        temporary = new ArrayList<>();
     }
 
     public void addStorage(IFoodStorage storage){
@@ -35,7 +33,7 @@ public class ControlQuality {
             Iterator<IFood> iter = storage.getFoodStorage().iterator();
             while (iter.hasNext()) {
                 IFood food = iter.next();
-                if (storage.getPermissions().shouldBeRemoved(food, aDate)) {
+                if (storage.shouldBeRemoved(food, aDate)) {
                     temporary.add(food);
                     iter.remove();
                 }
@@ -44,8 +42,8 @@ public class ControlQuality {
 
         for (IFood food : temporary) {
             for (IFoodStorage storage : storages) {
-                if (storage.getPermissions().shouldBeAdded(food, aDate)) {
-                    storage.getActions().addFood(food);
+                if (storage.shouldBeAdded(food, aDate)) {
+                    storage.addFood(food);
                 }
             }
         }

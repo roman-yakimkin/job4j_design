@@ -5,6 +5,8 @@ import java.util.List;
 
 public interface IFoodStorage {
     public List<IFood> getFoodStorage();
-    public IFoodStoragePermissions getPermissions();
-    public IFoodStorageActions getActions();
+    public boolean shouldBeAdded(IFood food, Date aDate);
+    public boolean shouldBeRemoved(IFood food, Date aDate);
+    public void addFood(IFood food);
+    public boolean contains(IFood food);
 }

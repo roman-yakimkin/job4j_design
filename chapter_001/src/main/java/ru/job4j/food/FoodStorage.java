@@ -27,12 +27,22 @@ public class FoodStorage implements IFoodStorage {
     }
 
     @Override
-    public IFoodStoragePermissions getPermissions() {
-        return permissions;
+    public boolean shouldBeAdded(IFood food, Date aDate) {
+        return this.permissions.shouldBeAdded(food, aDate);
     }
 
     @Override
-    public IFoodStorageActions getActions() {
-        return actions;
+    public boolean shouldBeRemoved(IFood food, Date aDate) {
+        return this.permissions.shouldBeRemoved(food, aDate);
+    }
+
+    @Override
+    public void addFood(IFood food) {
+        this.actions.addFood(food);
+    }
+
+    @Override
+    public boolean contains(IFood food) {
+        return this.foodStorage.contains(food);
     }
 }
