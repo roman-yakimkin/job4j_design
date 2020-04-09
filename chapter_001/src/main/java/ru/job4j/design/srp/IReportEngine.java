@@ -4,5 +4,6 @@ import java.util.function.Predicate;
 
 public interface IReportEngine {
     public Store getStore();
+    public void setStore(Store store);
     public String generate(Predicate<Employee> filter);
 }

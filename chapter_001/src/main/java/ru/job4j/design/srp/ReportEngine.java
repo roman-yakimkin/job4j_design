@@ -5,27 +5,23 @@ import java.util.function.Predicate;
 /**
  * Система отчетов по сотрудниками
  */
-public class ReportEngine extends BaseReportEngine {
-    public ReportEngine(Store store) {
-        super(store);
+public class ReportEngine implements IReportEngine {
+    private Store store;
+    private IReportGenerate reportGenerate;
+    public ReportEngine(Store store, IReportGenerate reportGenerate) {
+        this.store = store;
+        this.reportGenerate = reportGenerate;
     }
-
-    /**
-     * Генерация отчета по умолчанию
-     * @param filter - условие
-     * @return - сгенерированный отчет в текстовом виде
-     */
+    public Store getStore() {
+        return store;
+    }
+    public void setStore(Store store) {
+        this.store = store;
+    }
+    public IReportGenerate getReportGenerate() {
+        return reportGenerate;
+    }
     public String generate(Predicate<Employee> filter) {
-        StringBuilder text = new StringBuilder();
-        text.append("Name; Hired; Fired; Salary;")
-            .append(System.lineSeparator());
-        for (Employee employee : getStore().findBy(filter)) {
-            text.append(employee.getName()).append(";")
-                    .append(employee.getHired()).append(";")
-                    .append(employee.getFired()).append(";")
-                    .append(employee.getSalary()).append(";")
-                    .append(System.lineSeparator());
-        }
-        return text.toString();
+        return reportGenerate.generate(store.findBy(filter));
     }
 }

@@ -18,7 +18,7 @@ public class HRReportEngineTest {
         store.add(worker1);
         store.add(worker2);
         store.add(worker3);
-        IReportEngine engine = new HRReportEngine(store);
+        IReportEngine engine = new HRReportEngine(store, new HRReportGenerate());
         StringBuilder expect = new StringBuilder()
                 .append("Name; Salary;")
                 .append(System.lineSeparator())

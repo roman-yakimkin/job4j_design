@@ -10,25 +10,24 @@ import java.util.function.Predicate;
  */
 public class ITReportEngine extends BaseReportEngine {
 
-    public ITReportEngine(Store store) {
-        super(store);
+    public ITReportEngine(Store store, IReportGenerate reportGenerate) {
+        super(store, reportGenerate);
     }
 
-    @Override
-    public String generate(Predicate<Employee> filter) {
-        StringBuilder text = new StringBuilder();
-        text.append("<table>");
-        text.append("<tr><th>Name</th><th>Hired</th><th>Fired</th><th>Salary</th></tr>");
-        for (Employee employee : getStore().findBy(filter)) {
-            text.append("<tr>")
-                    .append("<td>").append(employee.getName()).append("</td>")
-                    .append("<td>").append(employee.getHired()).append("</td>")
-                    .append("<td>").append(employee.getFired()).append("</td>")
-                    .append("<td>").append(employee.getSalary()).append("</td>")
-                  .append("</tr>");
-        }
-        text.append("</table>");
-        return text.toString();
-
-    }
+//    @Override
+//    public String generate(Predicate<Employee> filter) {
+//        StringBuilder text = new StringBuilder();
+//        text.append("<table>");
+//        text.append("<tr><th>Name</th><th>Hired</th><th>Fired</th><th>Salary</th></tr>");
+//        for (Employee employee : getStore().findBy(filter)) {
+//            text.append("<tr>")
+//                    .append("<td>").append(employee.getName()).append("</td>")
+//                    .append("<td>").append(employee.getHired()).append("</td>")
+//                    .append("<td>").append(employee.getFired()).append("</td>")
+//                    .append("<td>").append(employee.getSalary()).append("</td>")
+//                  .append("</tr>");
+//        }
+//        text.append("</table>");
+//        return text.toString();
+//    }
 }
