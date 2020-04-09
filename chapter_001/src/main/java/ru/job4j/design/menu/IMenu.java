@@ -10,7 +10,7 @@ import java.util.function.Predicate;
  * @version 1.0
  */
 public interface IMenu {
-    public boolean addMenuItem(IMenuItem parent, IMenuItem newItem);
-    public boolean removeMenuItem(IMenuItem item);
+    public boolean add(IMenuItem parent, IMenuItem newItem);
+    public boolean remove(IMenuItem item);
     public List<IMenuItem> filterMenuItems(Predicate<IMenuItem> condition);
 }

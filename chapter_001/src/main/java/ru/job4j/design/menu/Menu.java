@@ -19,13 +19,13 @@ public class Menu implements IMenu {
     }
 
     @Override
-    public boolean addMenuItem(IMenuItem parent, IMenuItem newItem) {
+    public boolean add(IMenuItem parent, IMenuItem newItem) {
         newItem.setParent(parent);
         return items.add(newItem);
     }
 
     @Override
-    public boolean removeMenuItem(IMenuItem item) {
+    public boolean remove(IMenuItem item) {
         return items.remove(item);
     }
 

@@ -3,6 +3,8 @@ package ru.job4j.design.menu;
 /**
  * Действие при выворе конкретного пункта меню
  */
-public interface IMenuAction {
-    public void execute();
+
+@FunctionalInterface
+public interface IAction {
+    public void execute(IMenuItem mi);
 }

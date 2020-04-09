@@ -1,18 +1,16 @@
 package ru.job4j.design.menu;
 
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MenuItem implements IMenuItem {
-    IMenuItem parent;
+    ITreeElement parent = null;
     String title;
-    Consumer<IMenuItem> action;
+    Map<String, IAction> actions;
 
-    public MenuItem(String title, Consumer<IMenuItem> action) {
+    public MenuItem(String title) {
         this.title = title;
-        this.parent = null;
-        this.action = action;
+        actions = new HashMap<String, IAction>();
     }
 
     @Override
@@ -26,34 +24,38 @@ public class MenuItem implements IMenuItem {
     }
 
     @Override
-    public IMenuItem getParent() {
+    public ITreeElement getParent() {
         return parent;
     }
 
     @Override
-    public void setParent(IMenuItem parent) {
+    public void setParent(ITreeElement parent) {
         this.parent = parent;
     }
 
     @Override
-    public Consumer<IMenuItem> getAction() {
-        return this.action;
+    public void on(String actionName, IAction action) {
+        actions.put(actionName, action);
     }
 
     @Override
-    public void setAction(Consumer<IMenuItem> action) {
-        this.action = action;
+    public void off(String actionName) {
+        actions.remove(actionName);
     }
 
     @Override
-    public void executeAction() {
-        this.getAction().accept(this);
+    public boolean trigger(String actionName) {
+        IAction action = actions.get(actionName);
+        if (action != null) {
+            action.execute(this);
+        }
+        return (action != null);
     }
 
     @Override
     public int getDepth() {
         int depth = 1;
-        IMenuItem mi = this;
+        ITreeElement mi = this;
         while (mi.getParent() != null) {
             depth++;
             mi = mi.getParent();

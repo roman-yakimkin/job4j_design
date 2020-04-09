@@ -12,7 +12,7 @@ public class MenuOutput implements IMenuOutput {
 
     @Override
     public IMenu getMenu() {
-        return this.menu;
+        return menu;
     }
 
     private String getOutputMenuItem(IMenuItem mi) {
@@ -32,9 +32,8 @@ public class MenuOutput implements IMenuOutput {
 
     @Override
     public void output() {
-        for (IMenuItem mi : this.getMenu().filterMenuItems((i) -> (i.getParent() == null))) {
+        for (IMenuItem mi : menu.filterMenuItems((i) -> (i.getParent() == null))) {
             recursiveMenuItemOutput(mi);
-
         }
     }
 }
