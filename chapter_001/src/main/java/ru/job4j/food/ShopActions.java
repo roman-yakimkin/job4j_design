@@ -39,15 +39,15 @@ public class ShopActions implements IFoodStorageActions {
 
     @Override
     public boolean addFood(IFood food) {
-        if (food.getStorageLifeInPercents(this.currentDate) >= 75.0) {
-            food.setDiscount(this.calcDiscount(food));
+        if (food.getStorageLifeInPercents(currentDate) >= 75.0) {
+            food.setDiscount(calcDiscount(food));
         }
-        return this.getStorage().getFoodStorage().add(food);
+        return getStorage().getFoodStorage().add(food);
     }
 
     @Override
     public boolean removeFood(IFood food) {
-        return this.getStorage().getFoodStorage().remove(food);
+        return getStorage().getFoodStorage().remove(food);
     }
 
 }
