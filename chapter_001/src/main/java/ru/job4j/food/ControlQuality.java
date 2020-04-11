@@ -13,14 +13,12 @@ import java.util.List;
  */
 public class ControlQuality {
     private Date aDate;
-    private List<IFoodStorage> storages = new ArrayList<>();
-    private List<IFood> temporary = new ArrayList<>();
+    private List<FoodStorage> storages = new ArrayList<>();
 
     public ControlQuality(Date aDate) {
         this.aDate = aDate;
     }
-
-    public void addStorage(IFoodStorage storage){
+    public void addStorage(FoodStorage storage){
         storages.add(storage);
     }
 
@@ -29,25 +27,14 @@ public class ControlQuality {
      */
     public void rearrangeFood() {
 
-        for (IFoodStorage storage : storages) {
-            Iterator<IFood> iter = storage.getFoodStorage().iterator();
-            while (iter.hasNext()) {
-                IFood food = iter.next();
-                if (storage.shouldBeRemoved(food, aDate)) {
-                    temporary.add(food);
-                    iter.remove();
-                }
-            }
+        List<Food> temporary = new ArrayList<>();
+
+        for (FoodStorage storage : storages) {
+            temporary.addAll(storage.removeUnsuitableFood(aDate));
         }
 
-        for (IFood food : temporary) {
-            for (IFoodStorage storage : storages) {
-                if (storage.shouldBeAdded(food, aDate)) {
-                    storage.addFood(food);
-                }
-            }
+        for (FoodStorage storage : storages) {
+            temporary.removeAll(storage.addSuitableFood(temporary, aDate));
         }
-
-        temporary.clear();
     }
 }

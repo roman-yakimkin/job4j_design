@@ -1,48 +1,19 @@
 package ru.job4j.food;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- * Класс - хранилище продуктов
+ * Интерфейс - хранилище продуктов
  * @author Roman Yakimkin (r.yakimkin@yandex.ru)
- * @since 30.03.2020
+ * @since 11.04.2020
  * @version 1.0
  */
-public class FoodStorage implements IFoodStorage {
-    private List<IFood> foodStorage;
-    private IFoodStoragePermissions permissions;
-    private IFoodStorageActions actions;
-
-    public FoodStorage(IFoodStoragePermissions permissions, IFoodStorageActions actions) {
-        this.foodStorage = new ArrayList<>();
-        this.permissions = permissions;
-        this.actions = actions;
-        this.actions.setStorage(this);
-    }
-
-    public List<IFood> getFoodStorage() {
-        return foodStorage;
-    }
-
-    @Override
-    public boolean shouldBeAdded(IFood food, Date aDate) {
-        return permissions.shouldBeAdded(food, aDate);
-    }
-
-    @Override
-    public boolean shouldBeRemoved(IFood food, Date aDate) {
-        return permissions.shouldBeRemoved(food, aDate);
-    }
-
-    @Override
-    public void addFood(IFood food) {
-        actions.addFood(food);
-    }
-
-    @Override
-    public boolean contains(IFood food) {
-        return foodStorage.contains(food);
-    }
+public interface FoodStorage {
+    public boolean shouldBeAdded(Food food, Date aDate);
+    public boolean shouldBeRemoved(Food food, Date aDate);
+    public void addFood(Food food);
+    public boolean contains(Food food);
+    public List<Food> removeUnsuitableFood(Date aDate);
+    public List<Food> addSuitableFood(List<Food> addingFood, Date aDate);
 }
