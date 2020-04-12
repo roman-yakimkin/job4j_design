@@ -6,7 +6,7 @@ package ru.job4j.design.parking;
  * @since 07.04.2020
  * @version 1.0
  */
-public interface IParkingManager {
-    public IParking getParking();
-    
+public interface ParkingManager {
+    public String put(Vehicle vehicle);
+    public Vehicle get(String voucher);
 }

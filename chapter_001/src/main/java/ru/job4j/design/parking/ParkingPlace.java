@@ -6,8 +6,8 @@ package ru.job4j.design.parking;
  * @version 1.0
  * @since 31.03.2020
  */
-public interface IParkingPlace {
+public interface ParkingPlace {
     public int getType();
     public int getNumber();
-    public IVehicle getVehicle();
+    public Vehicle getVehicle();
 }

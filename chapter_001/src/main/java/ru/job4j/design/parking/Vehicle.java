@@ -8,11 +8,10 @@ import java.util.List;
  * @since 31.03.2020
  * @version 1.0
  */
-public interface IVehicle {
+public interface Vehicle {
     public int getType();
     public String getModel();
     public String getPlateNumber();
-    public String getOwnerName();
     public int getSize();
-    List<IParkingPlace> getParkingPlaces();
+    List<ParkingPlace> getParkingPlaces();
 }
