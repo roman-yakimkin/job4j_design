@@ -6,8 +6,8 @@ import java.io.PrintStream;
  * Класс для отображения меню
  */
 public class ConsoleMenuOutput implements MenuOutput {
-    Menu menu;
-    PrintStream printStream;
+    private Menu menu;
+    private PrintStream printStream;
 
     public ConsoleMenuOutput(Menu menu, PrintStream printStream) {
         this.menu = menu;

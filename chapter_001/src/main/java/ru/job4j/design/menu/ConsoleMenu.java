@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 public class ConsoleMenu implements Menu {
-    List<MenuItem> items;
+    private List<MenuItem> items;
 
     public ConsoleMenu(List<MenuItem> items) {
         this.items = items;

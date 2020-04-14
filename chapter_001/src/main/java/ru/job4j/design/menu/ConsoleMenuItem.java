@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ConsoleMenuItem implements MenuItem {
-    TreeElement parent = null;
-    String title;
-    Map<String, Action> actions;
+    private TreeElement parent = null;
+    private String title;
+    private Map<String, Action> actions;
 
     public ConsoleMenuItem(String title) {
         this.title = title;
