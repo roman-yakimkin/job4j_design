@@ -6,7 +6,7 @@ package ru.job4j.design.tictactoe;
  * @since 05.04.2020
  * @version 1.0
  */
-public interface ISymbol {
+public interface Symbol {
     public void display();
-    ISymbol get();
+    Symbol get();
 }

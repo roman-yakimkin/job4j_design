@@ -6,7 +6,7 @@ package ru.job4j.design.tictactoe;
  * @version 1.0
  * @since 05.04.2020
  */
-public enum ESymbol implements ISymbol {
+public enum ESymbol implements Symbol {
     X_SYMBOL {
         @Override
         public void display() {
@@ -41,7 +41,7 @@ public enum ESymbol implements ISymbol {
 
     };
     @Override
-    public ISymbol get() {
+    public Symbol get() {
         return this;
     }
 }
