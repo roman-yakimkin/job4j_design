@@ -11,9 +11,10 @@ public class ParkingTest {
     public void calculateParkingPlacesIfOneTruck() {
         Parking parking = new MemParking(3, 1);
         Vehicle kamaz5320 = new Truck("КамАЗ-5320", "AA 1234", 3);
-        parking.addVehicle(kamaz5320);
+        boolean vehicleAdded = parking.addVehicle(kamaz5320);
         int freePlacesForCars = parking.getPlaces((place) -> (place.getVehicle() == null && place.getType() == 1)).size();
         int freePlacesForTrucks = parking.getPlaces((place) -> (place.getVehicle() == null && place.getType() == 2)).size();
+        assertThat(vehicleAdded, is(true));
         assertThat(freePlacesForCars, is(3));
         assertThat(freePlacesForTrucks, is(0));
     }
@@ -24,11 +25,14 @@ public class ParkingTest {
         Vehicle kamaz5320 = new Truck("КамАЗ-5320", "AA 1234", 3);
         Vehicle zaz965 = new Car("ЗАЗ 965", "БО 2345");
         Vehicle zaz968 = new Car("ЗАЗ 968", "АВ 3467");
-        parking.addVehicle(kamaz5320);
-        parking.addVehicle(zaz965);
-        parking.addVehicle(zaz968);
+        boolean kamazAdded = parking.addVehicle(kamaz5320);
+        boolean zaz965Added = parking.addVehicle(zaz965);
+        boolean zaz968Added = parking.addVehicle(zaz968);
         int freePlacesForCars = parking.getPlaces((place) -> (place.getVehicle() == null && place.getType() == 1)).size();
         int freePlacesForTrucks = parking.getPlaces((place) -> (place.getVehicle() == null && place.getType() == 2)).size();
+        assertThat(kamazAdded, is(true));
+        assertThat(zaz965Added, is(true));
+        assertThat(zaz968Added, is(true));
         assertThat(freePlacesForCars, is(1));
         assertThat(freePlacesForTrucks, is(0));
     }
