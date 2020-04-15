@@ -12,11 +12,10 @@ import java.util.List;
  * @version 1.0
  */
 public class CommonFoodStorage implements FoodStorage {
-    private List<Food> foodStorage;
+    private List<Food> foodProducts = new ArrayList<>();
     private FoodStoragePermissions permissions;
 
     public CommonFoodStorage(FoodStoragePermissions permissions) {
-        this.foodStorage = new ArrayList<>();
         this.permissions = permissions;
     }
 
@@ -32,12 +31,12 @@ public class CommonFoodStorage implements FoodStorage {
 
     @Override
     public void addFood(Food food) {
-        foodStorage.add(food);
+        foodProducts.add(food);
     }
 
     @Override
     public boolean contains(Food food) {
-        return foodStorage.contains(food);
+        return foodProducts.contains(food);
     }
 
     /**
@@ -67,14 +66,12 @@ public class CommonFoodStorage implements FoodStorage {
     public List<Food> removeUnsuitableFood(Date date) {
         List<Food> unsuitableFood = new ArrayList<>();
 
-        Iterator<Food> foodStorageIterator = foodStorage.iterator();
-        while (foodStorageIterator.hasNext()) {
-            Food food = foodStorageIterator.next();
+        for(Food food : foodProducts) {
             if (shouldBeRemoved(food, date)) {
                 unsuitableFood.add(food);
-                foodStorageIterator.remove();
             }
         }
+        foodProducts.removeAll(unsuitableFood);
 
         return unsuitableFood;
     }

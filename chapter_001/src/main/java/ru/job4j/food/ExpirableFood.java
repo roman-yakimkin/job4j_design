@@ -9,18 +9,32 @@ import java.util.Date;
  * @version 1.0
  */
 public class ExpirableFood implements Food {
+    /**
+     * Наименование продукта
+     */
     private String name;
+    /**
+     * Дата производства продукта
+     */
     private Date createDate;
+    /**
+     * Дата истечения срока годности
+     */
     private Date expireDate;
+    /**
+     * Стоимость продукта
+     */
     private int price;
-    private byte discount;
+    /**
+     * Процент скидки
+     */
+    private byte discount = 0;
 
     public ExpirableFood(String name, Date createDate, Date expireDate, int price) {
         this.name = name;
         this.createDate = createDate;
         this.expireDate = expireDate;
         this.price = price;
-        this.discount = 0;
     }
 
     public String getName() {
