@@ -2,6 +2,7 @@ package ru.job4j.food;
 
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Класс - магазин
@@ -58,5 +59,10 @@ public class ShopFoodStorage implements FoodStorage {
     @Override
     public List<Food> addSuitableFood(List<Food> addingFood, Date aDate) {
         return foodStorage.addSuitableFood(addingFood, aDate);
+    }
+
+    @Override
+    public List<Food> takeFood(Predicate<Food> filter) {
+        return foodStorage.takeFood(filter);
     }
 }

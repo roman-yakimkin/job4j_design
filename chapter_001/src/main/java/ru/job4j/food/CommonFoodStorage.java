@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Класс - хранилище продуктов
@@ -74,5 +76,17 @@ public class CommonFoodStorage implements FoodStorage {
         foodProducts.removeAll(unsuitableFood);
 
         return unsuitableFood;
+    }
+
+    /**
+     * Забрать еду из хранилища в соответствии с неким условием
+     * @param filter - условие, по которому еда извлекается из хранилища
+     * @return - извлеченная еда
+     */
+    @Override
+    public List<Food> takeFood(Predicate<Food> filter) {
+        List<Food> takenFood = foodProducts.stream().filter(filter).collect(Collectors.toList());
+        foodProducts.removeAll(takenFood);
+        return takenFood;
     }
 }
