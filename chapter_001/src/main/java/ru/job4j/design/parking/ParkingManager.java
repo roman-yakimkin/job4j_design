@@ -1,5 +1,7 @@
 package ru.job4j.design.parking;
 
+import java.util.Optional;
+
 /**
  * Интерфейс - менеджер парковки
  * @author Roman Yakimkin (r.yakimkin@yandex.ru)
@@ -7,6 +9,6 @@ package ru.job4j.design.parking;
  * @version 1.0
  */
 public interface ParkingManager {
-    public String put(Vehicle vehicle);
-    public Vehicle get(String voucher);
+    public Optional<String> put(Vehicle vehicle);
+    public Optional<Vehicle> get(String voucher);
 }

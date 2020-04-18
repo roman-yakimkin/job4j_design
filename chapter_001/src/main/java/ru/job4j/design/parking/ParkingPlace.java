@@ -1,5 +1,7 @@
 package ru.job4j.design.parking;
 
+import java.util.Optional;
+
 /**
  * Интерфейс - место на парковочной площадке
  * @author Roman Yakimkin (r.yakimkin@yandex.ru)
@@ -7,7 +9,9 @@ package ru.job4j.design.parking;
  * @since 31.03.2020
  */
 public interface ParkingPlace {
-    public int getType();
+    public VehicleType getType();
     public int getNumber();
-    public Vehicle getVehicle();
+    public Optional<Vehicle> getVehicle();
+    public void setVehicle(Vehicle vehicle);
+    public void free();
 }

@@ -9,9 +9,8 @@ import java.util.List;
  * @version 1.0
  */
 public interface Vehicle {
-    public int getType();
+    public VehicleType getType();
     public String getModel();
     public String getPlateNumber();
     public int getSize();
-    List<ParkingPlace> getParkingPlaces();
 }

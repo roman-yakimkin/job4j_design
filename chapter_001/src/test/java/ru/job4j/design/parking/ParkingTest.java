@@ -2,6 +2,8 @@ package ru.job4j.design.parking;
 
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -12,8 +14,8 @@ public class ParkingTest {
         Parking parking = new MemParking(3, 1);
         Vehicle kamaz5320 = new Truck("КамАЗ-5320", "AA 1234", 3);
         boolean vehicleAdded = parking.addVehicle(kamaz5320);
-        int freePlacesForCars = parking.getPlaces((place) -> (place.getVehicle() == null && place.getType() == 1)).size();
-        int freePlacesForTrucks = parking.getPlaces((place) -> (place.getVehicle() == null && place.getType() == 2)).size();
+        int freePlacesForCars = parking.getPlaces((place) -> (place.getVehicle().isEmpty() && place.getType() == VehicleType.CAR)).size();
+        int freePlacesForTrucks = parking.getPlaces((place) -> (place.getVehicle().isEmpty() && place.getType() == VehicleType.TRUCK)).size();
         assertThat(vehicleAdded, is(true));
         assertThat(freePlacesForCars, is(3));
         assertThat(freePlacesForTrucks, is(0));
@@ -28,8 +30,8 @@ public class ParkingTest {
         boolean kamazAdded = parking.addVehicle(kamaz5320);
         boolean zaz965Added = parking.addVehicle(zaz965);
         boolean zaz968Added = parking.addVehicle(zaz968);
-        int freePlacesForCars = parking.getPlaces((place) -> (place.getVehicle() == null && place.getType() == 1)).size();
-        int freePlacesForTrucks = parking.getPlaces((place) -> (place.getVehicle() == null && place.getType() == 2)).size();
+        int freePlacesForCars = parking.getPlaces((place) -> (place.getVehicle().isEmpty() && place.getType() == VehicleType.CAR)).size();
+        int freePlacesForTrucks = parking.getPlaces((place) -> (place.getVehicle().isEmpty() && place.getType() == VehicleType.TRUCK)).size();
         assertThat(kamazAdded, is(true));
         assertThat(zaz965Added, is(true));
         assertThat(zaz968Added, is(true));
