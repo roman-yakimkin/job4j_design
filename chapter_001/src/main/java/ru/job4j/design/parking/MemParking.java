@@ -14,13 +14,13 @@ public class MemParking implements Parking {
     private List<Vehicle> vehicles = new ArrayList<>();
     private List<ParkingPlace> places = new ArrayList<>();
 
-    public MemParking(int carPlaces, int truckPlaces) {
+    public MemParking(ParkingFactory parkingFactory, int carPlaces, int truckPlaces) {
         int placesNumerator = 1;
         for (int i = 0; i < carPlaces; i++) {
-            places.add(new MemParkingPlace(VehicleType.CAR, placesNumerator++));
+            places.add(parkingFactory.createParkingPlace(VehicleType.CAR, placesNumerator++));
         }
         for (int i = 0; i < truckPlaces; i++) {
-            places.add(new MemParkingPlace(VehicleType.TRUCK, placesNumerator++));
+            places.add(parkingFactory.createParkingPlace(VehicleType.TRUCK, placesNumerator++));
         }
     }
 

@@ -11,7 +11,7 @@ public class ParkingTest {
 
     @Test
     public void calculateParkingPlacesIfOneTruck() {
-        Parking parking = new MemParking(3, 1);
+        Parking parking = new MemParking(new MemParkingFactory(), 3, 1);
         Vehicle kamaz5320 = new Truck("КамАЗ-5320", "AA 1234", 3);
         boolean vehicleAdded = parking.addVehicle(kamaz5320);
         int freePlacesForCars = parking.getPlaces((place) -> (place.getVehicle().isEmpty() && place.getType() == VehicleType.CAR)).size();
@@ -23,7 +23,7 @@ public class ParkingTest {
 
     @Test
     public void calculateParkingPlacesIfTwoCarsAndOneTruck() {
-        Parking parking = new MemParking(3, 1);
+        Parking parking = new MemParking(new MemParkingFactory(), 3, 1);
         Vehicle kamaz5320 = new Truck("КамАЗ-5320", "AA 1234", 3);
         Vehicle zaz965 = new Car("ЗАЗ 965", "БО 2345");
         Vehicle zaz968 = new Car("ЗАЗ 968", "АВ 3467");

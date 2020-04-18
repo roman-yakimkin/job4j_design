@@ -12,7 +12,7 @@ public class ParkingManagerTest {
 
     @Test
     public void ifVehiclePutItShouldBeGet() {
-        Parking parking = new MemParking(10, 10);
+        Parking parking = new MemParking(new MemParkingFactory(), 10, 10);
         Optional<Vehicle> receivedCar = null;
         ParkingManager parkingManager = new MemParkingManager(parking);
         Vehicle azlk2141 = new Car("АЗЛК 2141", "AA 1234");
@@ -25,20 +25,20 @@ public class ParkingManagerTest {
 
     @Test
     public void ifVehicleIsTruckAndThereArePlacesOnlyForCars() {
-        Parking parking = new MemParking(10, 0);
-        int parkingPlaces = 0;
+        Parking parking = new MemParking(new MemParkingFactory(), 10, 0);
+        int parkingPlacesCount = 0;
         ParkingManager parkingManager = new MemParkingManager(parking);
         Vehicle belaz540A = new Truck("БелАЗ-540А", "XX 2345", 5);
         Optional<String> voucher = parkingManager.put(belaz540A);
         if (voucher.isPresent()) {
-            parkingPlaces = parking.getPlacesForVehicle(belaz540A).size();
+            parkingPlacesCount = parking.getPlacesForVehicle(belaz540A).size();
         }
-        assertThat(parkingPlaces, is(5));
+        assertThat(parkingPlacesCount, is(5));
     }
 
     @Test
     public void ifVehicleIsTruckAndThereAreNotEnoughParkingPlaces() {
-        Parking parking = new MemParking(3, 1);
+        Parking parking = new MemParking(new MemParkingFactory(), 3, 1);
         ParkingManager parkingManager = new MemParkingManager(parking);
         Vehicle kamaz5320 = new Truck("КамАЗ-5320", "AA 1234", 3);
         Optional<String> voucher1 = parkingManager.put(kamaz5320);
@@ -50,15 +50,15 @@ public class ParkingManagerTest {
 
     @Test
     public void ifWePutAndTookAllTheVehiclesTheParkingShouldBeEmpty() {
-        Parking parking = new MemParking(3, 1);
+        Parking parking = new MemParking(new MemParkingFactory(), 3, 1);
         ParkingManager parkingManager = new MemParkingManager(parking);
         Vehicle kamaz5320 = new Truck("КамАЗ-5320", "AA 1234", 3);
         Optional<String> voucher1 = parkingManager.put(kamaz5320);
         Vehicle azlk2141 = new Car("АЗЛК 2141", "AA 1234");
         Optional<String> voucher2 = parkingManager.put(azlk2141);
-        parkingManager.get(voucher1);
-        parkingManager.get(voucher2);
-        assertThat(parking.getPlaces((place) -> (place.getType() == VehicleType.CAR)), is(3));
-        assertThat(parking.getPlaces((place) -> (place.getType() == VehicleType.TRUCK)), is(1));
+        parkingManager.get(voucher1.get());
+        parkingManager.get(voucher2.get());
+        assertThat(parking.getPlaces((place) -> (place.getType() == VehicleType.CAR)).size(), is(3));
+        assertThat(parking.getPlaces((place) -> (place.getType() == VehicleType.TRUCK)).size(), is(1));
     }
 }
