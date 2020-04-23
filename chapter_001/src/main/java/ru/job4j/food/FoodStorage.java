@@ -2,6 +2,7 @@ package ru.job4j.food;
 
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Интерфейс - хранилище продуктов
@@ -16,4 +17,5 @@ public interface FoodStorage {
     public boolean contains(Food food);
     public List<Food> removeUnsuitableFood(Date aDate);
     public List<Food> addSuitableFood(List<Food> addingFood, Date aDate);
+    public List<Food> takeFood(Predicate<Food> filter);
 }

@@ -28,11 +28,22 @@ public class ControlQuality {
     public void rearrangeFood() {
 
         List<Food> temporary = new ArrayList<>();
-
         for (FoodStorage storage : storages) {
             temporary.addAll(storage.removeUnsuitableFood(aDate));
         }
+        for (FoodStorage storage : storages) {
+            temporary.removeAll(storage.addSuitableFood(temporary, aDate));
+        }
+    }
 
+    /**
+     * Перераспределение всех продуктов
+     */
+    public void resort() {
+        List<Food> temporary = new ArrayList<>();
+        for (FoodStorage storage : storages) {
+            temporary.addAll(storage.takeFood((food) -> true));
+        }
         for (FoodStorage storage : storages) {
             temporary.removeAll(storage.addSuitableFood(temporary, aDate));
         }
