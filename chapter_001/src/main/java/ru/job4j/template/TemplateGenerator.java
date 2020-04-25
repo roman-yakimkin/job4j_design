@@ -19,14 +19,14 @@ public class TemplateGenerator implements Generator {
         Pattern pt = Pattern.compile("(\\$\\{)([a-zA-Z0-9-_]+)(\\})");
         Matcher mt = pt.matcher(template);
         while (mt.find()) {
-            result.add(template.substring(mt.start()+2, mt.end()-1));
+            result.add(template.substring(mt.start() + 2, mt.end() - 1));
         }
         return result;
     }
 
     @Override
     public String produce(String template, Map<String, Object> args) throws SuperfluousInTemplateException, SuperfluousInArgsException {
-        for(String key : args.keySet()) {
+        for (String key : args.keySet()) {
             if (!template.contains("${" + key + "}")) {
                 throw new SuperfluousInArgsException("There are some superfluous keys in args");
             }

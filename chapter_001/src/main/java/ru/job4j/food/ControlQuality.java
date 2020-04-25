@@ -18,7 +18,7 @@ public class ControlQuality {
     public ControlQuality(Date aDate) {
         this.aDate = aDate;
     }
-    public void addStorage(FoodStorage storage){
+    public void addStorage(FoodStorage storage) {
         storages.add(storage);
     }
 

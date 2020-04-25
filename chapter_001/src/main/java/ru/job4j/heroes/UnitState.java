@@ -16,7 +16,7 @@ public enum UnitState {
             return priority + 20;
         }
         public int damageModifier(int damage) {
-            return (int)(damage * 1.5);
+            return (int) (damage * 1.5);
         }
     },
     /**
@@ -38,7 +38,7 @@ public enum UnitState {
             return priority;
         }
         public int damageModifier(int damage) {
-            return (int)(damage / 1.5);
+            return (int) (damage / 1.5);
         }
     };
     public abstract int priorityModifier(int priority);

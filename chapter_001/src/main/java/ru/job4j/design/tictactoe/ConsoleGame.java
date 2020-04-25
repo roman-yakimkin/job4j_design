@@ -31,12 +31,11 @@ public class ConsoleGame implements Game {
      * @param winCount - количество символов для выигрыша
      * @param firstPlayerIndex - кто будет начинать игру (если -1, то будет разыгрываться случайно)
      */
-    public ConsoleGame(ClassFactory classFactory
-            ,int boardWidth, int boardHeight
-            , String firstPlayerName, Symbol firstPlayerSymbol, DataInput firstPlayerDataInput
-            , String secondPlayerName, Symbol secondPlayerSymbol, DataInput secondPlayerDataInput
-            , DataOutput dataOutput
-            , int winCount, int firstPlayerIndex) {
+    @SuppressWarnings("checkstyle:ParameterNumber")
+    public ConsoleGame(ClassFactory classFactory, int boardWidth, int boardHeight,
+                       String firstPlayerName, Symbol firstPlayerSymbol, DataInput firstPlayerDataInput,
+                       String secondPlayerName, Symbol secondPlayerSymbol, DataInput secondPlayerDataInput,
+                       DataOutput dataOutput, int winCount, int firstPlayerIndex) {
         this.board = classFactory.createBoard(boardWidth, boardHeight, dataOutput);
         Player player1 = classFactory.createPlayer(firstPlayerName, firstPlayerSymbol, firstPlayerDataInput, dataOutput);
         Player player2 = classFactory.createPlayer(secondPlayerName, secondPlayerSymbol, secondPlayerDataInput, dataOutput);
@@ -64,7 +63,7 @@ public class ConsoleGame implements Game {
     @Override
     public Player getPlayer(Symbol symbol) {
         Player result = null;
-        for(Player pl : players) {
+        for (Player pl : players) {
             if (pl.getSymbol().equals(symbol)) {
                 result = pl;
             }
@@ -92,7 +91,7 @@ public class ConsoleGame implements Game {
                 if (current == player.getSymbol()) {
                     if (previous == player.getSymbol()) {
                         len++;
-                        if (len >= winCount ) {
+                        if (len >= winCount) {
                             return true;
                         }
                     } else {
@@ -121,7 +120,7 @@ public class ConsoleGame implements Game {
                 if (current == player.getSymbol()) {
                     if (previous == player.getSymbol()) {
                         len++;
-                        if (len >= winCount ) {
+                        if (len >= winCount) {
                             return true;
                         }
                     } else {
@@ -144,15 +143,15 @@ public class ConsoleGame implements Game {
     private boolean checkSequenceDiagonalFromTopToBottom(Player player) {
         int len = 0;
         Symbol current = null, previous = null;
-        for (int x = - board.getHeight() + winCount ; x < board.getHeight() - winCount + 1 ; x++) {
+        for (int x = -board.getHeight() + winCount; x < board.getHeight() - winCount + 1; x++) {
             for (int y = 0; y < board.getHeight(); y++) {
-                int current_x = x - winCount + 1 + y;
-                if (current_x >= 0 && current_x < board.getWidth()) {
-                    current = board.getCell(current_x, y).getStatus();
+                int currentX = x - winCount + 1 + y;
+                if (currentX >= 0 && currentX < board.getWidth()) {
+                    current = board.getCell(currentX, y).getStatus();
                     if (current == player.getSymbol()) {
                         if (previous == player.getSymbol()) {
                             len++;
-                            if (len >= winCount ) {
+                            if (len >= winCount) {
                                 return true;
                             }
                         } else {
@@ -178,15 +177,15 @@ public class ConsoleGame implements Game {
     private boolean checkSequenceDiagonalFromBottomToTop(Player player) {
         int len = 0;
         Symbol current = null, previous = null;
-        for (int x = - board.getHeight() + winCount ; x < board.getHeight() - winCount + 1 ; x++) {
+        for (int x = -board.getHeight() + winCount; x < board.getHeight() - winCount + 1; x++) {
             for (int y = 0; y < board.getHeight(); y++) {
-                int current_x = x - winCount + 1 + y;
-                if (current_x >= 0 && current_x < board.getWidth()) {
-                    current = board.getCell(current_x, board.getHeight() - y - 1).getStatus();
+                int currentX = x - winCount + 1 + y;
+                if (currentX >= 0 && currentX < board.getWidth()) {
+                    current = board.getCell(currentX, board.getHeight() - y - 1).getStatus();
                     if (current == player.getSymbol()) {
                         if (previous == player.getSymbol()) {
                             len++;
-                            if (len >= winCount ) {
+                            if (len >= winCount) {
                                 return true;
                             }
                         } else {
@@ -261,12 +260,10 @@ public class ConsoleGame implements Game {
 
     public static void main(String[] args) {
         Game game = new ConsoleGame(
-                  new ConsoleClassFactory()
-                , 10, 10
-                , "First Player", ESymbol.X_SYMBOL, new ConsoleDataInput()
-                , "Second Player", ESymbol.O_SYMBOL, new ConsoleDataInput()
-                , new ConsoleDataOutput()
-                , 3, -1);
+                  new ConsoleClassFactory(), 10, 10,
+                "First Player", ESymbol.X_SYMBOL, new ConsoleDataInput(),
+                "Second Player", ESymbol.O_SYMBOL, new ConsoleDataInput(),
+                new ConsoleDataOutput(), 3, -1);
 
         game.execute();
     }

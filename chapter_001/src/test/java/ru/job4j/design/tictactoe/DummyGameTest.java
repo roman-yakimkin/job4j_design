@@ -18,11 +18,10 @@ public class DummyGameTest {
         System.setOut(stream);
         DataInput dataInput1 = new BotDataInput("1 1, 2 2, 3 3, 5 5");
         DataInput dataInput2 = new BotDataInput("2 3, 4 6, 4 7, 6 8");
-        Game game = new ConsoleGame( new ConsoleClassFactory(), 10, 10
-                , "First Player", ESymbol.X_SYMBOL, dataInput1
-                , "Second Player", ESymbol.O_SYMBOL, dataInput2
-                , new ConsoleDataOutput()
-                , 3, 0);
+        Game game = new ConsoleGame(new ConsoleClassFactory(), 10, 10,
+                "First Player", ESymbol.X_SYMBOL, dataInput1,
+                "Second Player", ESymbol.O_SYMBOL, dataInput2,
+                new ConsoleDataOutput(), 3, 0);
         game.execute();
         String st = outputStream.toString();
         boolean result = outputStream.toString().contains("First Player выиграл");
@@ -38,11 +37,10 @@ public class DummyGameTest {
         System.setOut(stream);
         DataInput dataInput1 = new BotDataInput("1 1, 2 2, 3 1, 5 5");
         DataInput dataInput2 = new BotDataInput("2 3, 3 4, 4 5, 6 8");
-        Game game = new ConsoleGame( new ConsoleClassFactory(), 10, 10
-                , "First Player", ESymbol.X_SYMBOL, dataInput1
-                , "Second Player", ESymbol.O_SYMBOL, dataInput2
-                , new ConsoleDataOutput()
-                , 3, 0);
+        Game game = new ConsoleGame(new ConsoleClassFactory(), 10, 10,
+                "First Player", ESymbol.X_SYMBOL, dataInput1,
+                "Second Player", ESymbol.O_SYMBOL, dataInput2,
+                new ConsoleDataOutput(), 3, 0);
         game.execute();
         boolean result = outputStream.toString().contains("Second Player выиграл");
         assertThat(result, is(true));

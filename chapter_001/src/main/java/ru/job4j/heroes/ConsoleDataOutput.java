@@ -58,7 +58,7 @@ public class ConsoleDataOutput implements DataOutput {
             result += ", цель: ";
         } else {
             result += ", цели: ";
-        };
+        }
         StringJoiner joiner = new StringJoiner(", ");
         for (Unit target : targets) {
             Map<String, String> unitInfo = target.getUnitInfo();

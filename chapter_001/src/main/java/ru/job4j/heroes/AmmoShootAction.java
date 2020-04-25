@@ -58,7 +58,7 @@ public class AmmoShootAction implements UnitAction {
         for (Unit unit : targets) {
             result.put(unit, (uSource, uTarget) -> {
                 uTarget.setHitPoints(uTarget.getHitPoints() - getDamage());
-                ((AmmoShootUnit)uSource).spentAmmo();
+                ((AmmoShootUnit) uSource).spentAmmo();
             });
         }
         return result;

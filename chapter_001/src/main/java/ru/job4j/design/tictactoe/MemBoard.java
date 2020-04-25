@@ -17,7 +17,7 @@ public class MemBoard implements Board {
         this.height = height;
         this.cells = new Cell[width][height];
         for (int y = 0; y < this.height; y++) {
-            for (int x = 0; x < this.width; x++ ) {
+            for (int x = 0; x < this.width; x++) {
                 cells[y][x] = new MemCell();
             }
         }
