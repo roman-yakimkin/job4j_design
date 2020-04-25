@@ -21,7 +21,7 @@ public class MemParkingManager implements ParkingManager {
      */
     private Map<String, Vehicle> vehicles = new HashMap<>();
 
-    public MemParkingManager(Parking parking){
+    public MemParkingManager(Parking parking) {
         this.parking = parking;
     }
 
