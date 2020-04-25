@@ -68,7 +68,7 @@ public class CommonFoodStorage implements FoodStorage {
     public List<Food> removeUnsuitableFood(Date date) {
         List<Food> unsuitableFood = new ArrayList<>();
 
-        for(Food food : foodProducts) {
+        for (Food food : foodProducts) {
             if (shouldBeRemoved(food, date)) {
                 unsuitableFood.add(food);
             }

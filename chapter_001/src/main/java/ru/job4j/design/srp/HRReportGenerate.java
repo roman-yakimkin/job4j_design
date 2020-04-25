@@ -12,7 +12,7 @@ public class HRReportGenerate implements IReportGenerate {
                 .append(System.lineSeparator());
         for (Employee employee : employeeList
                 .stream()
-                .sorted((e1, e2) -> ((int)(e2.getSalary() - e1.getSalary())))
+                .sorted((e1, e2) -> ((int) (e2.getSalary() - e1.getSalary())))
                 .collect(Collectors.toList())) {
             text.append(employee.getName()).append(";")
                     .append(employee.getSalary()).append(";")

@@ -20,7 +20,7 @@ public class HRReportEngine extends BaseReportEngine {
         List<Employee> employeeList = getStore()
                 .findBy(filter)
                 .stream()
-                .sorted((e1, e2) -> ((int)(e2.getSalary() - e1.getSalary())))
+                .sorted((e1, e2) -> ((int) (e2.getSalary() - e1.getSalary())))
                 .collect(Collectors.toList());
         return getReportGenerate().generate(employeeList);
     }

@@ -24,7 +24,7 @@ public class MaxMin {
     public <T> T findElem(List<T> value, Comparator<T> comparator, Integer signExpected) {
         T result = value.get(0);
         for (T element : value) {
-            if ( Integer.signum(comparator.compare(element, result)) == signExpected ) {
+            if (Integer.signum(comparator.compare(element, result)) == signExpected) {
                 result = element;
             }
         }
