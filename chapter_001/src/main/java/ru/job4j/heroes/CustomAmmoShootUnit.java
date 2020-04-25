@@ -3,8 +3,20 @@ package ru.job4j.heroes;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Юнит, стреляющий и расходующий боеприпасы
+ * @author Roman Yakimkin (r.yakimkin@yandex.ru)
+ * @since 25.04.2020
+ * @version 1.0
+ */
 public class CustomAmmoShootUnit implements AmmoShootUnit {
+    /**
+     * данные рукопашного юнита для декорации
+     */
     CustomMeleeUnit meleeUnit;
+    /**
+     * Количество боеприпасов
+     */
     int ammo;
 
     public CustomAmmoShootUnit(UnitFactory unitFactory, String unitType, String name, int hitPoints, List<UnitAction> actions, int ammo) {

@@ -1,7 +1,5 @@
 package ru.job4j.heroes;
 
-import java.util.function.Function;
-
 /**
  * Класс - состояние юнита
  * @author Roman Yakimkin (r.yakimkin@yandex.ru)
@@ -9,6 +7,10 @@ import java.util.function.Function;
  * @version 1.0
  */
 public enum UnitState {
+
+    /**
+     * Юнит благословлен
+     */
     BLESSED {
         public int priorityModifier(int priority) {
             return priority + 20;
@@ -17,6 +19,9 @@ public enum UnitState {
             return (int)(damage * 1.5);
         }
     },
+    /**
+     * Юнит в нормальном состоянии
+     */
     NORMAL {
         public int priorityModifier(int priority) {
             return priority;
@@ -25,6 +30,9 @@ public enum UnitState {
             return damage;
         }
     },
+    /**
+     *  Юнит проклят
+     */
     DAMNED {
         public int priorityModifier(int priority) {
             return priority;

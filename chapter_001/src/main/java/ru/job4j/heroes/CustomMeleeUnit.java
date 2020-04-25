@@ -6,6 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Класс - рукопашный юнит
+ * @author Roman Yakimkin (r.yakimkin@yandex.ru)
+ * @since 21.04.2020
+ * @version 1.0
+ */
 public class CustomMeleeUnit implements Unit {
     private Player player;
     private String name;
@@ -109,7 +115,7 @@ public class CustomMeleeUnit implements Unit {
         String displayName = unitFactory.getDisplayName(unitType);
         String result;
         if (hitPoints > 0) {
-           result = name + " (" + displayName + "), hit points: " + hitPoints;
+           result = name + " (" + displayName + "), priority = " + getPriority() +  ", hit points: " + hitPoints;
         } else {
            result = name + " (" + displayName + ") - killed";
         }

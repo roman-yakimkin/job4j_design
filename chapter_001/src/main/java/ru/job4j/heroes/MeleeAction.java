@@ -3,7 +3,7 @@ package ru.job4j.heroes;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 /**
  * Действие для рукопашний схватки
@@ -42,10 +42,10 @@ public class MeleeAction implements UnitAction {
     }
 
     @Override
-    public Map<Unit, Consumer<Unit>> execute(List<Unit> targets) {
-        Map<Unit, Consumer<Unit>> result = new HashMap<>();
+    public Map<Unit, BiConsumer<Unit, Unit>> execute(List<Unit> targets) {
+        Map<Unit, BiConsumer<Unit, Unit>> result = new HashMap<>();
         for (Unit unit : targets) {
-            result.put(unit, (u) -> u.setHitPoints(u.getHitPoints() - getDamage()));
+            result.put(unit, (uSource, uTarget) -> uTarget.setHitPoints(uTarget.getHitPoints() - getDamage()));
         }
         return result;
     }

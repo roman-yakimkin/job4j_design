@@ -1,9 +1,7 @@
 package ru.job4j.heroes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -35,7 +33,7 @@ public class Game {
 
     private Player getLoser() {
         for (Player player : players) {
-            if (battleField.getFilteredUnits((u) -> (u.getPlayer().equals(player) && u.getHitPoints() > 0)).size() == 0) {
+            if (battleField.getFilteredUnits((u) -> (u.getPlayer().equals(player) && u.getHitPoints() > 0)).isEmpty()) {
                 return player;
             }
         }
@@ -47,7 +45,7 @@ public class Game {
     }
 
     private Player getOpponent(Player player) {
-        return players.stream().filter((p) -> (!p.equals(player))).collect(Collectors.toList()).get(0);
+        return player != null ? players.stream().filter((p) -> (!p.equals(player))).collect(Collectors.toList()).get(0) : null;
     };
 
     private void initUnitsQueue() {
@@ -78,32 +76,35 @@ public class Game {
     }
 
     public void execute() {
+        int tour = 1;
         Player winner = null;
         currentPlayer = players.get(0);
+        initUnitsQueue();
         do {
             dataOutput.outputBattleField(battleField, players);
-            dataOutput.outputMessage("Сейчас ходит игрок " + currentPlayer.getName());
             Unit currentUnit = dataInput.getUnitForAction(currentPlayer, unitsQueue.get(currentPlayer));
             if (currentUnit != null) {
+                dataOutput.outputMessage(System.lineSeparator() + "Ход № " + tour + ", cейчас ходит игрок " + currentPlayer.getName() + ", раса - " + currentPlayer.getRace().getName());
                 UnitAction currentAction = dataInput.getUnitAction(battleField, currentUnit);
                 List<Unit> targets = dataInput.getTargetsForAction(battleField, currentUnit, currentAction);
-                Map<Unit, Consumer<Unit>> actionResults = currentAction.execute(targets);
-                for (Map.Entry<Unit, Consumer<Unit>> entry : actionResults.entrySet()) {
+                Map<Unit, BiConsumer<Unit, Unit>> actionResults = currentAction.execute(targets);
+                for (Map.Entry<Unit, BiConsumer<Unit, Unit>> entry : actionResults.entrySet()) {
                     Unit target = entry.getKey();
-                    entry.getValue().accept(target);
+                    entry.getValue().accept(currentUnit, target);
                 }
                 dataOutput.outputAction(currentUnit, currentAction, targets);
                 currentUnit.setUnitState(UnitState.NORMAL);
+                excludeUnitFromQueue(currentPlayer, currentUnit);
+                removeKilledUnitsFromQueue(getOpponent(currentPlayer));
             }
             currentPlayer = getOpponent(currentPlayer);
-
+            tour++;
             if (isNextRound()) {
                 initUnitsQueue();
             }
-
             winner = getWinner();
         } while (winner == null);
-
+        dataOutput.outputMessage("Победил игрок " + winner.getName());
     }
 
     public static void main(String[] args) {
@@ -158,7 +159,7 @@ public class Game {
                         new MeleeAction("Атака клинком", 2)
                 ), 20))
         );
-        unitFactory.addUnitPrototype("orc_shaman", "Маг",
+        unitFactory.addUnitPrototype("orc_shaman", "Оркский шаман",
                 (name) -> (new CustomMageUnit(unitFactory, "orc_shaman", name, 60, List.of(
                         new CustomMagicAction("Проклятие", UnitState.NORMAL,
                                 (unit) -> (unit.getOppositeUnits().stream()
@@ -214,19 +215,25 @@ public class Game {
                 , "undead_necromancer", List.of("Necromancer 1")
         ));
 
-        Player player1 = new CustomPlayer("Player 1", humans, dataInput);
-        Player player2 = new CustomPlayer("Player 2", orcs, dataInput);
+        List<Race> races = List.of(humans, orcs, elves, undead);
+        Random r = new Random();
+        Race race1 = races.get(r.nextInt(races.size()));
+        List<Race> oppositeRaces = races.stream().filter((rc) -> (rc.getAttitude() != race1.getAttitude())).collect(Collectors.toList());
+        Race race2 = oppositeRaces.get(r.nextInt(oppositeRaces.size()));
 
-        List<Unit> humanArmy = humans.createDefaultArmy();
-        player1.assignArmy(humanArmy);
-        List<Unit> orcArmy = orcs.createDefaultArmy();
-        player2.assignArmy(orcArmy);
+        Player player1 = new CustomPlayer("Player 1", race1, dataInput);
+        Player player2 = new CustomPlayer("Player 2", race2, dataInput);
+
+        List<Unit> army1 = race1.createDefaultArmy();
+        player1.assignArmy(army1);
+        List<Unit> army2 = race2.createDefaultArmy();
+        player2.assignArmy(army2);
 
         BattleField battleField = new HeroesBattleField();
-        battleField.addArmy(humanArmy);
-        battleField.addArmy(orcArmy);
+        battleField.addArmy(army1);
+        battleField.addArmy(army2);
 
-        Game game = new Game(unitFactory, battleField, List.of(player1, player2), List.of(humans, orcs), dataInput, dataOutput);
+        Game game = new Game(unitFactory, battleField, List.of(player1, player2), List.of(race1, race2), dataInput, dataOutput);
         game.execute();
 
     }

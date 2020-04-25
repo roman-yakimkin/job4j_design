@@ -10,6 +10,13 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 public class BotDataInput implements DataInput {
+
+    /**
+     * Выбрать дейстие для юнита случайным образом
+     * @param battleField - поле боя
+     * @param unit - юнит
+     * @return - действие
+     */
     @Override
     public UnitAction getUnitAction(BattleField battleField, Unit unit) {
         List<UnitAction> possibleActions = unit.getPossibleActions();
@@ -18,6 +25,13 @@ public class BotDataInput implements DataInput {
         return possibleActions.get(index);
     }
 
+    /**
+     * Получить цели для действия
+     * @param battleField - поле боя
+     * @param unit - юнит
+     * @param action - действие юнита
+     * @return - список целей
+     */
     @Override
     public List<Unit> getTargetsForAction(BattleField battleField, Unit unit, UnitAction action) {
         List<Unit> targets = action.getPossibleTargets();
@@ -26,6 +40,13 @@ public class BotDataInput implements DataInput {
         return List.of(targets.get(index));
     }
 
+    /**
+     * Получить разу для игрока
+     * @param player - игрок
+     * @param races - список возможных рас
+     * @param oppositeRace - противиположная раса
+     * @return - раса для игрока
+     */
     @Override
     public Race getRaceForPlayer(Player player, List<Race> races, Race oppositeRace) {
         Random r = new Random();
@@ -37,6 +58,12 @@ public class BotDataInput implements DataInput {
         return races.get(index);
     }
 
+    /**
+     * Выбрать пользователя для хода с максимальным приоритетом
+     * @param player - игрок
+     * @param unitQueue - очередь пользователей
+     * @return - пользователь с максимальным приоритетом
+     */
     @Override
     public Unit getUnitForAction(Player player, List<Unit> unitQueue) {
         Optional<Unit> unit = unitQueue.stream()

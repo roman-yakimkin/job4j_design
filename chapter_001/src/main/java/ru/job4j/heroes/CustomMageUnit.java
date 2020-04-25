@@ -3,7 +3,16 @@ package ru.job4j.heroes;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Класс - магический юнит
+ * @author Roman Yakimkin (r.yakimkin@yandex.ru)
+ * @since 22.04.2020
+ * @version 1.0
+ */
 public class CustomMageUnit implements Unit {
+    /**
+     * Данные рукопашного юнита для декорации
+     */
     CustomMeleeUnit meleeUnit;
 
     public CustomMageUnit(UnitFactory unitFactory, String unitType, String name, int hitPoints, List<UnitAction> actions) {

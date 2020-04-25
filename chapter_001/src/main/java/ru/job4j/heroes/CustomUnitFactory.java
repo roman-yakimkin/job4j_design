@@ -5,6 +5,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
+/**
+ * Класс - фабрика для генерации юнитов
+ * @author Roman Yakimkin (r.yakimkin@yandex.ru)
+ * @since 22.04.2020
+ * @version 1.0
+ */
 public class CustomUnitFactory implements UnitFactory {
 
     public class UnitPrototype {

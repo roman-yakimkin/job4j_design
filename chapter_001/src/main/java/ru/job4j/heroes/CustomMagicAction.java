@@ -3,11 +3,14 @@ package ru.job4j.heroes;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.*;
 
+/**
+ * Класс - магическое действие
+ * @author Roman Yakimkin (r.yakimkin@yandex.ru)
+ * @since 22.04.2020
+ * @version 1.0
+ */
 public class CustomMagicAction implements UnitAction {
     private String name;
     private Unit owner;
@@ -36,10 +39,10 @@ public class CustomMagicAction implements UnitAction {
     }
 
     @Override
-    public Map<Unit, Consumer<Unit>> execute(List<Unit> targets) {
-        Map<Unit, Consumer<Unit>> result = new HashMap<>();
+    public Map<Unit, BiConsumer<Unit, Unit>> execute(List<Unit> targets) {
+        Map<Unit, BiConsumer<Unit, Unit>> result = new HashMap<>();
         for (Unit unit : targets) {
-            result.put(unit, (u) -> u.setUnitState(newState));
+            result.put(unit, (uSource, uTarget) -> uTarget.setUnitState(newState));
         }
         return result;
     }

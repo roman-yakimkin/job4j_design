@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
+/**
+ * Класс - раса игрока
+ * @author Roman Yakimkin (r.yakimkin@yandex.ru)
+ * @since 22.04.2020
+ * @version 1.0
+ */
 public class CustomRace implements Race {
     private String name;
     private RaceAttitude attitude;
