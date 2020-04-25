@@ -189,30 +189,30 @@ public class Game {
 
         Race humans = new CustomRace("Люди", RaceAttitude.POSITIVE, unitFactory);
         humans.setDefaultArmyStructure(Map.of(
-                "human_crossbowman", List.of("Crossbowman 1", "Crossbowman 2", "Crossbowman 3")
-                ,"human_footman", List.of("Footman 1", "Footman 2", "Footman 3", "Footman 4")
-                , "human_mage", List.of("Mage 1")
+                "human_crossbowman", List.of("Crossbowman 1", "Crossbowman 2", "Crossbowman 3"),
+                "human_footman", List.of("Footman 1", "Footman 2", "Footman 3", "Footman 4"),
+                "human_mage", List.of("Mage 1")
         ));
 
         Race elves = new CustomRace("Эльфы", RaceAttitude.POSITIVE, unitFactory);
         elves.setDefaultArmyStructure(Map.of(
-                "elf_footman", List.of("Footman 1", "Footman 2", "Footman 3", "Footman 4")
-                , "elf_bowman", List.of("Bowman 1", "Bowman 2", "Bowman 3")
-                , "elf_sorcerer", List.of("Sorcerer 1")
+                "elf_footman", List.of("Footman 1", "Footman 2", "Footman 3", "Footman 4"),
+                "elf_bowman", List.of("Bowman 1", "Bowman 2", "Bowman 3"),
+                "elf_sorcerer", List.of("Sorcerer 1")
         ));
 
         Race orcs = new CustomRace("Орки", RaceAttitude.NEGATIVE, unitFactory);
         orcs.setDefaultArmyStructure(Map.of(
-                "orc_goblin", List.of("Goblin 1", "Goblin 2", "Goblin 3", "Goblin 4")
-                ,"orc_bowman", List.of("Bowman 1", "Bowman 2", "Bowman 3")
-                ,"orc_shaman", List.of("Shaman 1")
+                "orc_goblin", List.of("Goblin 1", "Goblin 2", "Goblin 3", "Goblin 4"),
+                "orc_bowman", List.of("Bowman 1", "Bowman 2", "Bowman 3"),
+                "orc_shaman", List.of("Shaman 1")
         ));
 
         Race undead = new CustomRace("Нежить", RaceAttitude.NEGATIVE, unitFactory);
         undead.setDefaultArmyStructure(Map.of(
-                "undead_zombie", List.of("Zombie 1", "Zombie 2", "Zombie 3", "Zombie 4")
-                , "undead_hunter", List.of("Hunter 1", "Hunter 2", "Hunter 3")
-                , "undead_necromancer", List.of("Necromancer 1")
+                "undead_zombie", List.of("Zombie 1", "Zombie 2", "Zombie 3", "Zombie 4"),
+                "undead_hunter", List.of("Hunter 1", "Hunter 2", "Hunter 3"),
+                "undead_necromancer", List.of("Necromancer 1")
         ));
 
         List<Race> races = List.of(humans, orcs, elves, undead);
