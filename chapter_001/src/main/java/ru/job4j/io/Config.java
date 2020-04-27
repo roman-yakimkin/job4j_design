@@ -25,19 +25,17 @@ public class Config {
         StringJoiner out = new StringJoiner(System.lineSeparator());
         try (BufferedReader read = new BufferedReader(new FileReader(this.path))) {
             read.lines().forEach((l) -> {
-                try {
-                    if (l.trim().charAt(0) == '#') {
-                        return;
+                if (l.trim().charAt(0) == '#') {
+                    return;
+                }
+                String[] parsed = l.trim().split("=", 2);
+                if (parsed.length == 2) {
+                    String key = parsed[0].trim();
+                    String value = parsed[1].trim();
+                    if (key.length() > 0 && value.length() > 0) {
+                        values.put(key, value);
                     }
-                    String[] parsed = l.trim().split("=", 2);
-                    if (parsed.length == 2) {
-                        String key = parsed[0].trim();
-                        String value = parsed[1].trim();
-                        if (key.length() > 0 && value.length() > 0) {
-                            values.put(key, value);
-                        }
-                    }
-                } catch (Exception ignored) { }
+                }
             });
         } catch (Exception e) {
             e.printStackTrace();
