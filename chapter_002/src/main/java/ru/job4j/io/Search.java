@@ -15,7 +15,21 @@ import java.util.List;
  */
 public class Search {
     public static void main(String[] args) throws IOException {
-        List<String> results = search(Paths.get("."), "xml");
+        if (args.length == 0) {
+            throw new IllegalStateException("Вы не указали параметры для запуска данной программы");
+        }
+        if (args.length == 1) {
+            throw new IllegalStateException("Вы не указали требуемое расширение для фильтиации файлов");
+        }
+        Path root = Paths.get(args[0]);
+        if (!Files.exists(root)) {
+            throw new IllegalStateException(String.format("Not exist %s", root.toAbsolutePath().toString()));
+        }
+        if (!Files.isDirectory(root)) {
+            throw new IllegalStateException(String.format("Not directory %s", root.toAbsolutePath().toString()));
+        }
+        String ext = args[1];
+        List<String> results = search(root, ext);
         results.forEach(System.out::println);
     }
 
