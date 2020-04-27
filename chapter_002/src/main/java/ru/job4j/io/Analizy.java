@@ -15,11 +15,12 @@ public class Analizy {
     }
 
     public void unavailable(String source, String target) {
-        try {
-            int prevType = 0, currentType = 0;
-            String timeBegin = "", timeEnd = "";
+        try (
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(source)));
             PrintWriter writer = new PrintWriter(new FileOutputStream(target));
+        ) {
+            int prevType = 0, currentType = 0;
+            String timeBegin = "", timeEnd = "";
             String line;
             String[] logElements = new String[2];
             while ((line = reader.readLine()) != null) {
@@ -39,8 +40,6 @@ public class Analizy {
             if (isTypeUnavailable(currentType)) {
                 writer.println(timeBegin + ";" + logElements[1]);
             }
-            reader.close();
-            writer.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
