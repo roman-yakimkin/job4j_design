@@ -2,11 +2,11 @@ package ru.job4j.io;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.Is;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -15,15 +15,22 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 public class AnalizyTest {
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
+
     @Test
-    public void testUnavailableCount() {
+    public void testUnavailableCount() throws IOException {
         Analizy analizer = new Analizy();
-        String source = "./data/source1.log";
-        String target = "./data/target1.csv";
-        analizer.unavailable(source, target);
+        File source = folder.newFile("source.txt");
+        File target = folder.newFile("target.txt");
+        try (PrintWriter out = new PrintWriter(source)) {
+            List.of("200 10:56:01", "200 10:57:01", "400 10:58:01", "200 10:59:01", "500 11:01:02", "200 11:02:02",
+                    "200 11:03:02", "200 11:04:02", "200 11:05:02", "200 11:06:02", "400 11:07:02", "500 11:08:02").forEach(out::println);
+        }
+        analizer.unavailable(source.getAbsolutePath(), target.getAbsolutePath());
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(target)));
-            List<String> lines = Files.readAllLines(Paths.get(target));
+            List<String> lines = Files.readAllLines(Paths.get(target.getAbsolutePath()));
             assertThat(lines.size(), is(3));
 
         } catch (Exception e) {
@@ -32,14 +39,18 @@ public class AnalizyTest {
     }
 
     @Test
-    public void testUnavailableContains() {
+    public void testUnavailableContains() throws IOException {
         Analizy analizer = new Analizy();
-        String source = "./data/source1.log";
-        String target = "./data/target1.csv";
-        analizer.unavailable(source, target);
+        File source = folder.newFile("source.txt");
+        File target = folder.newFile("target.txt");
+        try (PrintWriter out = new PrintWriter(source)) {
+            List.of("200 10:56:01", "200 10:57:01", "400 10:58:01", "200 10:59:01", "500 11:01:02", "200 11:02:02",
+                    "200 11:03:02", "200 11:04:02", "200 11:05:02", "200 11:06:02", "400 11:07:02", "500 11:08:02").forEach(out::println);
+        }
+        analizer.unavailable(source.getAbsolutePath(), target.getAbsolutePath());
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(target)));
-            List<String> lines = Files.readAllLines(Paths.get(target));
+            List<String> lines = Files.readAllLines(Paths.get(target.getAbsolutePath()));
             String result = "11:01:02;11:02:02";
             assertThat(lines.contains(result), is(true));
 
@@ -49,14 +60,18 @@ public class AnalizyTest {
     }
 
     @Test
-    public void testUnavailablePosition() {
+    public void testUnavailablePosition() throws IOException {
         Analizy analizer = new Analizy();
-        String source = "./data/source1.log";
-        String target = "./data/target1.csv";
-        analizer.unavailable(source, target);
+        File source = folder.newFile("source.txt");
+        File target = folder.newFile("target.txt");
+        try (PrintWriter out = new PrintWriter(source)) {
+            List.of("200 10:56:01", "200 10:57:01", "400 10:58:01", "200 10:59:01", "500 11:01:02", "200 11:02:02",
+                    "200 11:03:02", "200 11:04:02", "200 11:05:02", "200 11:06:02", "400 11:07:02", "500 11:08:02").forEach(out::println);
+        }
+        analizer.unavailable(source.getAbsolutePath(), target.getAbsolutePath());
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(target)));
-            List<String> lines = Files.readAllLines(Paths.get(target));
+            List<String> lines = Files.readAllLines(Paths.get(target.getAbsolutePath()));
             String result = "11:01:02;11:02:02";
             assertThat(lines.get(1), is(result));
 
