@@ -31,9 +31,9 @@ public class AnalizyTest {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(target)));
             List<String> lines = Files.readAllLines(Paths.get(target.getAbsolutePath()));
+            assertThat(lines.size(), is(3));
             boolean isContains = lines.contains("11:01:02;11:02:02") && lines.contains("10:58:01;10:59:01") && lines.contains("11:07:02;11:08:02");
             assertThat(isContains, is(true));
-
         } catch (Exception e) {
             e.printStackTrace();
         }
