@@ -33,14 +33,7 @@ public class PrintFiles implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        boolean isValidFile = true;
-        if (fileExt.length() > 0) {
-            String[] fileFragments = file.getFileName().toString().split("\\.");
-            if (!fileFragments[fileFragments.length - 1].equals(fileExt)) {
-                isValidFile = false;
-            }
-        }
-        if (isValidFile) {
+        if (!file.toFile().getName().endsWith(fileExt)) {
             results.add(file.toAbsolutePath().toString());
         }
         return FileVisitResult.CONTINUE;
