@@ -23,6 +23,10 @@ public class FileLogger implements Logger {
         f.delete();
     }
 
+    /**
+     * Добавить строку в лог-файл
+     * @param line - добавляемая строка
+     */
     @Override
     public void writeLine(String line) {
         try (FileWriter fw = new FileWriter(logFileName, true)) {

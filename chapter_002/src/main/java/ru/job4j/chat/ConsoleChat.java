@@ -27,6 +27,11 @@ public class ConsoleChat {
         currentState = interlocutorState;
     }
 
+    /**
+     * Изменить состояние чата
+     * @param inputPhrase - введенная фраза
+     * @return - новое состояние
+     */
     private ChatState selectNewState(String inputPhrase) {
         if (inputPhrase == null) {
             return exitState;
@@ -40,6 +45,9 @@ public class ConsoleChat {
         return currentState;
     }
 
+    /**
+     * Выполнить действие
+     */
     public void doAction() {
         String inputPhrase = dataInput.getInputPhrase();
         if (inputPhrase != null) {
@@ -49,6 +57,9 @@ public class ConsoleChat {
         }
     }
 
+    /**
+     * Запуск чата
+     */
     public void run() {
         while (currentState != exitState) {
             doAction();
@@ -57,8 +68,8 @@ public class ConsoleChat {
 
     public static void main(String[] args) {
         DataInput dataInput = new ConsoleDataInput();
-        Logger logger = new FileLogger("/home/roman/projects/job4j_design/chapter_002/data/chat.log");
-        ConsoleChat chat = new ConsoleChat("/home/roman/projects/job4j_design/chapter_002/data/chat_answers.txt", dataInput, logger);
+        Logger logger = new FileLogger("./chapter_002/data/chat.log");
+        ConsoleChat chat = new ConsoleChat("./chapter_002/data/chat_answers.txt", dataInput, logger);
         chat.run();
     }
 }
