@@ -1,9 +1,6 @@
 package ru.job4j.minicmd;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
 
 /**
  * Класс для наигации по папкам
@@ -12,20 +9,21 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 public class Shell {
-    private String path = "/";
-    private Map<String, UnaryOperator<String>> rules = Map.of(
-            ".", (p -> p),
-            "/", (p -> "/"),
-            "..", (this::parentPath)
-    );
+    Stack<String> path = new Stack<>();
 
     Shell cd(final String path) {
-        List<String> actions = pathToActions(shortenSlashes(path));
-        for (String action : actions) {
-            if (rules.containsKey(action)) {
-                this.path = rules.get(action).apply(this.path);
-            } else {
-                this.path = shortenSlashes(this.path + "/" + action);
+        for (String action : pathToActions(shortenSlashes(path))) {
+            switch (action) {
+                case "." :
+                    break;
+                case "/" :
+                    this.path.removeAllElements();
+                    break;
+                case ".." :
+                    this.path.pop();
+                    break;
+                default:
+                    this.path.push(action);
             }
         }
         return this;
@@ -48,17 +46,8 @@ public class Shell {
         return path.replaceAll("\\/{2,}", "/");
     }
 
-    public String parentPath(String path) {
-        List<String> fragments = Arrays.stream(path.split("/")).filter((s) -> (s.length() > 0)).collect(Collectors.toList());
-        String result = "/";
-        if (fragments.size() > 0) {
-            result += String.join("/", fragments.subList(0, fragments.size() - 1));
-        }
-        return result;
-    }
-
     public String path() {
-        return path;
+        return "/" + String.join("/", path);
     }
 
     public static void main(String[] args) {
