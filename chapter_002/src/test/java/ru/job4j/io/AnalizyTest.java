@@ -32,7 +32,8 @@ public class AnalizyTest {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(target)));
             List<String> lines = Files.readAllLines(Paths.get(target.getAbsolutePath()));
             assertThat(lines.size(), is(3));
-
+            boolean isEqual = lines.equals(List.of("10:58:01;10:59:01", "11:01:02;11:02:02", "11:07:02;11:08:02"));
+            assertThat(isEqual, is(true));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,7 +54,6 @@ public class AnalizyTest {
             List<String> lines = Files.readAllLines(Paths.get(target.getAbsolutePath()));
             String result = "11:01:02;11:02:02";
             assertThat(lines.contains(result), is(true));
-
         } catch (Exception e) {
             e.printStackTrace();
         }
