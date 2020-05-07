@@ -20,21 +20,23 @@ public class EvenIt implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        return Arrays.stream(Arrays.copyOfRange(data, point, data.length)).anyMatch((el) -> (el % 2 == 0));
+        boolean result = false;
+        while (!result && point < data.length) {
+            if (data[point] % 2 == 0) {
+                result = true;
+            } else {
+                point++;
+            }
+        }
+
+        return result;
     }
 
     @Override
     public Integer next() {
-        Integer result = null;
-        do {
-            if (!hasNext()) {
-                throw new NoSuchElementException();
-            }
-            if (data[point] % 2 == 0) {
-                result = data[point];
-            }
-            point++;
-        } while (result == null);
-        return result;
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
+        return data[point++];
     }
 }
