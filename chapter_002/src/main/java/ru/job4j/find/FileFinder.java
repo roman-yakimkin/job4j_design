@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Класс для обхода файлов
@@ -14,22 +15,24 @@ import java.util.List;
 public class FileFinder implements FileVisitor<Path> {
     private String fileName = "";
     private List<String> results;
+    private Predicate<Path> condition;
 
-    public FileFinder(String fileName, List<String> results) {
+    public FileFinder(String fileName, Predicate<Path> condition, List<String> results) {
         this.fileName = fileName;
+        this.condition = condition;
         this.results = results;
     }
 
     @Override
     public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir, fileName)) {
-            stream.forEach((file) -> results.add(file.toAbsolutePath().toString()));
-        }
         return FileVisitResult.CONTINUE;
     }
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+        if (condition.test(file)) {
+            results.add(file.toAbsolutePath().toString());
+        }
         return FileVisitResult.CONTINUE;
     }
 

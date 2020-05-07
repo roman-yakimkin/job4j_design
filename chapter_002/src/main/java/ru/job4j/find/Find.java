@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Класс для поиска файлов
@@ -18,9 +19,10 @@ public class Find {
     public static void main(String[] args) {
         FindParams params = new FindParams(args);
         if (params.isValid()) {
+            Predicate<Path> condition = ConditionFactory.condition(params);
             List<String> results = new ArrayList<>();
             try {
-                Files.walkFileTree(Paths.get(params.getInitialDir().toString()), new FileFinder(params.getFileName(), results));
+                Files.walkFileTree(Paths.get(params.getInitialDir().toString()), new FileFinder(params.getFileName(), condition, results));
                 writeResultsToFile(params, results);
             } catch (Exception e) {
                 e.printStackTrace();

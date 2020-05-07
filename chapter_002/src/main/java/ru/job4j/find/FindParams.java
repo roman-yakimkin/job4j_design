@@ -22,6 +22,10 @@ public class FindParams {
      */
     private String initialDir;
     /**
+     * Тип поиска
+     */
+    private String searchType;
+    /**
      * Имя файла или маска для поиска
      */
     private String fileName;
@@ -66,12 +70,30 @@ public class FindParams {
             outputFile = collectArgs.get(indexOutput + 1);
         }
 
-        int indexFileName = collectArgs.indexOf("-n");
-        if (indexFileName == -1 || indexFileName == collectArgs.size() - 1) {
-            return false;
-        } else {
-            fileName = collectArgs.get(indexFileName + 1);
+        int indexFileNameN = collectArgs.indexOf("-n");
+        if (indexFileNameN == -1 || indexFileNameN == collectArgs.size() - 1) {
+            indexFileNameN = -1;
         }
+
+        int indexFileNameR = collectArgs.indexOf("-r");
+        if (indexFileNameR == -1 || indexFileNameR == collectArgs.size() - 1) {
+            indexFileNameR = -1;
+        }
+
+        if ((indexFileNameN == -1 && indexFileNameR == -1) || (indexFileNameN != -1 && indexFileNameR != -1)) {
+            return false;
+        }
+
+        if (indexFileNameN != -1) {
+            searchType = "-n";
+            fileName = collectArgs.get(indexFileNameN + 1);
+        }
+
+        if (indexFileNameR != -1) {
+            searchType = "-r";
+            fileName = collectArgs.get(indexFileNameR + 1);
+        }
+
         return true;
     }
 
@@ -85,6 +107,10 @@ public class FindParams {
 
     public String getInitialDir() {
         return initialDir;
+    }
+
+    public String getSearchType() {
+        return searchType;
     }
 
     public String getFileName() {
