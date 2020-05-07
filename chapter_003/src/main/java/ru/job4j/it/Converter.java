@@ -1,5 +1,6 @@
 package ru.job4j.it;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -12,44 +13,27 @@ import java.util.NoSuchElementException;
 public class Converter {
     Iterator<Integer> convert(Iterator<Iterator<Integer>> it) {
         return new Iterator<Integer>() {
-            private Iterator<Integer> currentIterator = null;
-            private boolean isConvertedInitialed = false;
-
-            private void initConverter() {
-                while (it.hasNext()) {
-                    currentIterator = it.next();
-                    if (currentIterator.hasNext()) {
-                        break;
-                    }
-                }
-                isConvertedInitialed = true;
-            }
+            private Iterator<Integer> currentIterator = Collections.emptyIterator();
 
             @Override
             public boolean hasNext() {
-                if (!isConvertedInitialed) {
-                    initConverter();
+                boolean result = false;
+                while (!result && (it.hasNext() || currentIterator.hasNext())) {
+                    if (currentIterator.hasNext()) {
+                        result = true;
+                    } else {
+                        currentIterator = it.next();
+                    }
                 }
-                return it.hasNext() || currentIterator.hasNext();
+                return result;
             }
 
             @Override
             public Integer next() {
-                if (!isConvertedInitialed) {
-                    initConverter();
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
                 }
-                Integer result = null;
-                do {
-                    if (currentIterator == null || !currentIterator.hasNext()) {
-                        if (!it.hasNext()) {
-                            throw new NoSuchElementException();
-                        }
-                        currentIterator = it.next();
-                    } else {
-                        result = currentIterator.next();
-                    }
-                } while (result == null);
-                return result;
+                return currentIterator.next();
             }
         };
     }
