@@ -78,6 +78,20 @@ public class ForwardLinked<T> implements Iterable<T> {
         revertSubList(head, null);
     }
 
+    /**
+     * Перевернуть список нерекурсивным методом
+     */
+    public void revertNonRecursive() {
+        Node<T> oldHead = head;
+        head = null;
+        while (oldHead != null) {
+            Node<T> currentNode = oldHead;
+            oldHead = oldHead.next;
+            currentNode.next = head;
+            head = currentNode;
+        }
+    }
+
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
