@@ -12,21 +12,11 @@ public class SimpleQueue<T> {
     private final SimpleStack<T> in = new SimpleStack<>();
     private final SimpleStack<T> out = new SimpleStack<>();
 
-    private void moveData(SimpleStack<T> from, SimpleStack<T> to) {
-        while (true) {
-            try {
-                to.push(from.pop());
-            } catch (NoSuchElementException e) {
-                break;
-            }
-        }
-    }
-
     public T poll() {
-        moveData(in, out);
-        T result = out.pop();
-        moveData(out, in);
-        return result;
+        while (!in.isEmpty()) {
+            out.push(in.pop());
+        }
+        return out.pop();
     }
 
     public void push(T value) {
