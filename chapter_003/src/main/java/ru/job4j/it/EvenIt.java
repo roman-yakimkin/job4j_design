@@ -20,16 +20,12 @@ public class EvenIt implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        boolean result = false;
-        while (!result && point < data.length) {
+        for ( ; point < data.length; point++) {
             if (data[point] % 2 == 0) {
-                result = true;
-            } else {
-                point++;
+                break;
             }
         }
-
-        return result;
+        return point < data.length;
     }
 
     @Override
