@@ -20,6 +20,5 @@ public class UserMap {
         for (Map.Entry<User, Object> u : users.entrySet()) {
             System.out.println(u.getKey().hashCode() + " -> " + u.getValue());
         }
-//        System.out.println(users.toString());
     }
 }
