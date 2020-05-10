@@ -10,20 +10,34 @@ import java.util.Iterator;
  * @param <T> - тип данных, хранящихся в множестве
  */
 public class SimpleSet<T> implements Iterable<T> {
-    SimpleArray<T> container;
+    private SimpleArray<T> container;
 
     public SimpleSet() {
         container = new SimpleArray<>();
     }
 
-    public void add(T value) {
-        Iterator<T> it = container.iterator();
-        while (it.hasNext()) {
-            if (it.next().equals(value)) {
-                return;
+    /**
+     * Содержится ли значение в множестве
+     * @param value - значение
+     * @return - истина, если содержит
+     */
+    public boolean contains(T value) {
+        for (T t : container) {
+            if (t.equals(value)) {
+                return true;
             }
         }
-        container.add(value);
+        return false;
+    }
+
+    /**
+     * Добавить элемент в множество
+     * @param value - добавляемый элемент
+     */
+    public void add(T value) {
+        if (!contains(value)) {
+            container.add(value);
+        }
     }
 
     @Override
