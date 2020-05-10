@@ -17,15 +17,10 @@ public class Converter {
 
             @Override
             public boolean hasNext() {
-                boolean result = false;
-                while (!result && (it.hasNext() || currentIterator.hasNext())) {
-                    if (currentIterator.hasNext()) {
-                        result = true;
-                    } else {
-                        currentIterator = it.next();
-                    }
+                while (it.hasNext() && !currentIterator.hasNext()) {
+                    currentIterator = it.next();
                 }
-                return result;
+                return it.hasNext() || currentIterator.hasNext();
             }
 
             @Override
