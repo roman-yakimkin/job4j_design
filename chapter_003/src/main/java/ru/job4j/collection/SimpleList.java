@@ -50,9 +50,6 @@ public class SimpleList<T> implements Iterable<T> {
      * @return - элемент
      */
     public T get(int index) {
-        if (head == null) {
-            throw new IndexOutOfBoundsException();
-        }
         Objects.checkIndex(index, count);
         Node<T> node = head;
         int i = 0;
