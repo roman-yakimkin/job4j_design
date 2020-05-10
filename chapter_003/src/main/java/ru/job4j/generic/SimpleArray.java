@@ -1,6 +1,7 @@
 package ru.job4j.generic;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 /**
@@ -10,8 +11,8 @@ import java.util.Objects;
  * @version 1.0
  */
 public class SimpleArray<T> implements Iterable<T> {
-    T[] data;
-    int index = 0;
+    private final T[] data;
+    private int index = 0;
 
     public SimpleArray(int size) {
         data = (T[]) new Object[size];
@@ -22,9 +23,6 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param model - добавляемый элемент
      */
     public void add(T model) {
-        if (index == data.length) {
-            throw new IndexOutOfBoundsException();
-        }
         data[index++] = model;
     }
 
@@ -34,9 +32,7 @@ public class SimpleArray<T> implements Iterable<T> {
      * @return - удаленный элемент
      */
     public T remove(int index) {
-        if (Objects.checkIndex(index, this.index) != index) {
-            throw new IndexOutOfBoundsException();
-        }
+        Objects.checkIndex(index, this.index);
         T result = get(index);
         System.arraycopy(data, index + 1, data, index, data.length - index - 1);
         data[this.index - 1] = null;
@@ -50,9 +46,7 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param model - устанавливаемый элемент
      */
     public void set(int index, T model) {
-        if (Objects.checkIndex(index, this.index) != index) {
-            throw new IndexOutOfBoundsException();
-        }
+        Objects.checkIndex(index, this.index);
         data[index] = model;
     }
 
@@ -62,9 +56,7 @@ public class SimpleArray<T> implements Iterable<T> {
      * @return - полученный элемент
      */
     public T get(int index) {
-        if (Objects.checkIndex(index, this.index) != index) {
-            throw new IndexOutOfBoundsException();
-        }
+        Objects.checkIndex(index, this.index);
         return data[index];
     }
 
@@ -83,6 +75,9 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public T next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
                 return data[pointer++];
             }
         };
