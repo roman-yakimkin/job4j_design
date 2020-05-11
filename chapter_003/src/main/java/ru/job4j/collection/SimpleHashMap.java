@@ -1,8 +1,9 @@
 package ru.job4j.collection;
 
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-import java.util.Objects;
+import java.util.NoSuchElementException;
 
 /**
  * Простая реализация карты
@@ -129,7 +130,38 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Entry<K, V>> 
 
     @Override
     public Iterator<Entry<K, V>> iterator() {
-        return null;
+        return new Iterator<Entry<K, V>>() {
+            private int index = 0;
+            private Entry pointer = null;
+            private int expectedModCount = modCount;
+
+            @Override
+            public boolean hasNext() {
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
+                while (index < count && pointer == null) {
+                    pointer = data[index].entry;
+                    if (pointer == null) {
+                        index++;
+                    }
+                }
+                return pointer != null;
+            }
+
+            @Override
+            public Entry<K, V> next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                Entry<K, V> result = pointer;
+                pointer = pointer.next;
+                if (pointer == null) {
+                    index++;
+                }
+                return result;
+            }
+        };
     }
 
     public static class HashMapElement<K, V> implements Comparable {
