@@ -54,6 +54,46 @@ public class ForwardLinked<T> implements Iterable<T> {
         return result;
     }
 
+    /**
+     * Перевернуть фрагмент списка
+     * @param pointerHead - начало списка
+     * @param pointerTailNext - конец списка
+     */
+    private void revertSubList(Node<T> pointerHead, Node<T> pointerTailNext) {
+        if (pointerHead == null || pointerHead.next == pointerTailNext || pointerHead == pointerTailNext) {
+            return;
+        }
+        Node<T> pointerTail = pointerHead;
+        while (pointerTail.next != pointerTailNext) {
+            pointerTail = pointerTail.next;
+        }
+        T tmp = pointerHead.value;
+        pointerHead.value = pointerTail.value;
+        pointerTail.value = tmp;
+        revertSubList(pointerHead.next, pointerTail);
+    }
+
+    /**
+     * Перевернуть список
+     */
+    public void revert() {
+        revertSubList(head, null);
+    }
+
+    /**
+     * Перевернуть список нерекурсивным методом
+     */
+    public void revertNonRecursive() {
+        Node<T> oldHead = head;
+        head = null;
+        while (oldHead != null) {
+            Node<T> currentNode = oldHead;
+            oldHead = oldHead.next;
+            currentNode.next = head;
+            head = currentNode;
+        }
+    }
+
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
