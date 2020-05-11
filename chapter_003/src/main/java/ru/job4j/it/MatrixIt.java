@@ -21,24 +21,22 @@ public class MatrixIt implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        return Arrays.stream(Arrays.copyOfRange(data, row, data.length)).anyMatch((el) -> el.length > 0);
+        while (row < data.length && data[row].length == 0) {
+            row++;
+        }
+        return (row < data.length);
     }
 
     @Override
     public Integer next() {
-        Integer result = null;
-        do {
-            if (!hasNext()) {
-                throw new NoSuchElementException();
-            }
-            if (column < data[row].length) {
-                result = data[row][column++];
-            }
-            if (column > data[row].length - 1) {
-                row++;
-                column = 0;
-            }
-        } while (result == null);
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
+        Integer result = data[row][column++];
+        if (column > data[row].length - 1) {
+            row++;
+            column = 0;
+        }
         return result;
     }
 }
