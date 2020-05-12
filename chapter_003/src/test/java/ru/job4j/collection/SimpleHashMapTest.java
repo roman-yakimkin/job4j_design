@@ -34,7 +34,7 @@ public class SimpleHashMapTest {
 
         @Override
         public int hashCode() {
-            return id * 10;
+            return Objects.hash(id);
         }
     }
 

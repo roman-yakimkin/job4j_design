@@ -13,7 +13,6 @@ import java.util.NoSuchElementException;
  */
 public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Entry<K, V>> {
     HashMapElement[] data;
-    int count = 0;
     int modCount = 0;
 
     public SimpleHashMap(int size) {
@@ -34,6 +33,10 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Entry<K, V>> 
         return key.hashCode();
     }
 
+    private int getHashIndex(K key) {
+        return Math.abs(getHashCode(key) % data.length);
+    }
+
     private V getInList(int index, K key) {
         Entry<K, V> e = (Entry<K, V>) data[index].entry;
         while (e != null) {
@@ -50,6 +53,7 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Entry<K, V>> 
         Entry<K, V> newEntry = new Entry(key, value, e);
         data[index].entry = newEntry;
         data[index].count++;
+        modCount++;
     }
 
     private void replaceInList(int index, K key, V value) {
@@ -57,6 +61,7 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Entry<K, V>> 
        while (e != null) {
            if (e.key.equals(key)) {
                e.value = value;
+               modCount++;
                return;
            }
            e = e.next;
@@ -74,6 +79,7 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Entry<K, V>> 
                     prevNode.next = e.next;
                 }
                 data[index].count--;
+                modCount++;
                 return;
             }
             prevNode = e;
@@ -82,50 +88,38 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Entry<K, V>> 
     }
 
     public void put(K key, V value) {
-        if (count == data.length - 1) {
-            expand();
-        }
-        if (get(key) == null) {
-            HashMapElement<K, V> element = new HashMapElement<>(getHashCode(key), new Entry<K, V>(key, value, null));
-            int searchResult = Arrays.binarySearch(data, 0, count, element);
-            if (searchResult >= 0) {
-                removeFromList(searchResult, key);
-                addToList(searchResult, key, value);
+        int hashIndex = getHashIndex(key);
+        if (get(key) != null) {
+            removeFromList(hashIndex, key);
+            addToList(hashIndex, key, value);
+        } else {
+            if (data[hashIndex] == null) {
+                data[hashIndex] = new HashMapElement<K, V>(getHashCode(key), new Entry<K, V>(key, value, null));
+                modCount++;
             } else {
-                int elementPosition = -(Arrays.binarySearch(data, 0, count, element) + 1);
-                System.arraycopy(data, elementPosition, data, elementPosition + 1, count - elementPosition + 1);
-                data[elementPosition] = element;
-                count++;
+                addToList(hashIndex, key, value);
             }
         }
     }
 
     public V get(K key) {
-        int hashCode = getHashCode(key);
-        HashMapElement elem = new HashMapElement(hashCode, null);
-        if (count > 0) {
-            int elementPosition = Arrays.binarySearch(data, 0, count, elem);
-            if (elementPosition >= 0) {
-                return (V) getInList(elementPosition, key);
-            }
+        int hashIndex = getHashIndex(key);
+        if (data[hashIndex] == null) {
+            return null;
         }
-        return null;
+        return (V) getInList(hashIndex, key);
     }
 
     public boolean delete(K key) {
-        int hashCode = getHashCode(key);
-        HashMapElement<K, V> elem = new HashMapElement<>(hashCode, null);
-        int elementPosition = Arrays.binarySearch(data, 0, count, elem);
-        if (elementPosition >= 0) {
-            if (data[elementPosition].count > 0) {
-                removeFromList(elementPosition, key);
-            } else {
-                System.arraycopy(data, elementPosition + 1, data, elementPosition, data.length - elementPosition - 1);
-                data[count] = null;
-                count--;
-            }
+        int hashIndex = getHashIndex(key);
+        if (data[hashIndex] == null) {
+            return false;
         }
-        return false;
+        removeFromList(hashIndex, key);
+        if (data[hashIndex].count == 0) {
+            data[hashIndex] = null;
+        }
+        return true;
     }
 
     @Override
@@ -140,8 +134,10 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Entry<K, V>> 
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                while (index < count && pointer == null) {
-                    pointer = data[index].entry;
+                while (index < data.length && pointer == null) {
+                    if (data[index] != null) {
+                        pointer = data[index].entry;
+                    }
                     if (pointer == null) {
                         index++;
                     }
@@ -171,6 +167,9 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Entry<K, V>> 
         public HashMapElement(int hashCode, Entry<K, V> entry) {
             this.hashCode = hashCode;
             this.entry = entry;
+            if (entry != null) {
+                count++;
+            }
         }
 
         @Override
