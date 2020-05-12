@@ -17,6 +17,8 @@ public class UserMap {
         Map<User, Object> users = new HashMap<>();
         users.put(first, new Object());
         users.put(second, new Object());
-        System.out.println(users.toString());
+        for (Map.Entry<User, Object> u : users.entrySet()) {
+            System.out.println(u.getKey().hashCode() + " -> " + u.getValue());
+        }
     }
 }

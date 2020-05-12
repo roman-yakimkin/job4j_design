@@ -1,6 +1,7 @@
 package ru.job4j.collection;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 /**
  * Реализация модели User
@@ -29,5 +30,24 @@ public class User {
 
     public Calendar getBirthday() {
         return birthday;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        User user = (User) o;
+        return getChildren() == user.getChildren()
+                && Objects.equals(getName(), user.getName())
+                && Objects.equals(getBirthday(), user.getBirthday());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getBirthday());
     }
 }
