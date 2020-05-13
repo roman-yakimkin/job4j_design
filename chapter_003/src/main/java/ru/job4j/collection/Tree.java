@@ -18,6 +18,14 @@ public class Tree<E> implements SimpleTree<E> {
         this.root = new Node<>(root);
     }
 
+    private boolean isBinarySubTree(Node<E> root) {
+        return (root.children.size() <= 2 && root.children.stream().allMatch(this::isBinarySubTree));
+    }
+
+    public boolean isBinary() {
+        return isBinarySubTree(root);
+    }
+
     @Override
     public boolean add(E parent, E child) {
         var parentNode = findBy(parent);
