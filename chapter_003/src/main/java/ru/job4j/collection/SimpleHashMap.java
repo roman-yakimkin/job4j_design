@@ -12,8 +12,8 @@ import java.util.NoSuchElementException;
  * @version 1.0
  */
 public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Entry<K, V>> {
-    HashMapElement[] data;
-    int modCount = 0;
+    private HashMapElement[] data;
+    private int modCount = 0;
 
     public SimpleHashMap(int size) {
         data = new HashMapElement[size];
@@ -53,7 +53,6 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Entry<K, V>> 
         Entry<K, V> newEntry = new Entry(key, value, e);
         data[index].entry = newEntry;
         data[index].count++;
-        modCount++;
     }
 
     private void replaceInList(int index, K key, V value) {
@@ -61,7 +60,6 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Entry<K, V>> 
        while (e != null) {
            if (e.key.equals(key)) {
                e.value = value;
-               modCount++;
                return;
            }
            e = e.next;
@@ -79,7 +77,6 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Entry<K, V>> 
                     prevNode.next = e.next;
                 }
                 data[index].count--;
-                modCount++;
                 return;
             }
             prevNode = e;
@@ -89,17 +86,21 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Entry<K, V>> 
 
     public void put(K key, V value) {
         int hashIndex = getHashIndex(key);
-        if (get(key) != null) {
+        V currentValue = get(key);
+        if (currentValue != null) {
+            if (currentValue.equals(value)) {
+                return;
+            }
             removeFromList(hashIndex, key);
             addToList(hashIndex, key, value);
         } else {
             if (data[hashIndex] == null) {
                 data[hashIndex] = new HashMapElement<K, V>(getHashCode(key), new Entry<K, V>(key, value, null));
-                modCount++;
             } else {
                 addToList(hashIndex, key, value);
             }
         }
+        modCount++;
     }
 
     public V get(K key) {
@@ -116,6 +117,7 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Entry<K, V>> 
             return false;
         }
         removeFromList(hashIndex, key);
+        modCount++;
         if (data[hashIndex].count == 0) {
             data[hashIndex] = null;
         }
