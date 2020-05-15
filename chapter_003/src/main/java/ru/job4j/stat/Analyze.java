@@ -1,9 +1,6 @@
 package ru.job4j.stat;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -15,21 +12,18 @@ import java.util.stream.Collectors;
 public class Analyze {
 
     public Info diff(List<User> previous, List<User> current) {
-        Set<Integer> idsCurrent = current.stream().map((u) -> (u.id)).collect(Collectors.toSet());
-        Set<Integer> idsPrevious = previous.stream().map((u) -> (u.id)).collect(Collectors.toSet());
-
-        Set<Integer> idsCurrent1 = new HashSet<>(idsCurrent);
-        idsCurrent1.removeAll(idsPrevious);
-        int added = idsCurrent1.size();
-
-        Set<Integer> idsPrevious1 = new HashSet<>(idsPrevious);
-        idsPrevious1.removeAll(idsCurrent);
-        int deleted = idsPrevious1.size();
-
-        int changed = 0;
-        for (User user : current) {
-            changed += previous.stream().filter((u) -> (u.id == user.id && !u.name.equals(user.name))).count();
+        int added = 0, changed = 0, deleted = 0;
+        Map<Integer, User> users = previous.stream().collect(Collectors.toMap(u -> u.id, u -> u));
+        for (User u : current) {
+            User prev = users.put(u.id, u);
+            if (prev == null) {
+                added++;
+            } else if (!prev.name.equals(u.name)) {
+               changed++;
+            }
+            users.remove(u.id);
         }
+        deleted = users.size();
         return new Info(added, changed, deleted);
     }
 
