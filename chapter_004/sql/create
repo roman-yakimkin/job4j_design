@@ -1,0 +1,106 @@
+﻿create table categories (
+	id int unique primary key,
+	name varchar(120) not null
+);
+
+create table states (
+	id int unique primary key, 
+	name varchar(120) not null
+);
+
+create table roles (
+	id int unique primary key,
+	name varchar(120) not null
+);
+
+create table rules (
+	id serial primary key,
+	name varchar(120) not null
+);
+
+create table roles_rules (
+	role_id int references roles(id),
+	rule_id int references rules(id)
+);
+
+create table users (
+	id serial primary key,
+	name varchar(2000) not null,
+	mail varchar(200) not null,
+	role_id int references roles(id)
+);
+
+create table items (
+	id serial primary key,
+	user_id int references users(id),
+	state_id int references states(id),
+	category_id int references categories(id),
+	name varchar(2000) not null,
+	created date not null,
+	description text not null 
+);
+
+create table attaches (
+	id serial primary key,
+	item_id int references items(id),
+	filename varchar(2000) not null,
+	descr varchar(2000)
+);
+
+create table comments (
+	id serial primary key,
+	item_id int references items(id),
+	user_id int references users(id),
+	created date not null,
+	content text not null
+);
+
+insert into categories (id, name) values 
+	(1, 'Обычная'),
+	(2, 'Срочная');
+	
+insert into states (id, name) values 
+	(1, 'Новая'), 
+	(2, 'В работе'), 
+	(3, 'Выполнена'), 
+	(4, 'Отклонена');
+	
+insert into roles (id, name) values 
+	(1, 'Администратор'), 
+	(2, 'Менеджер'), 
+	(3, 'Пользователь');
+	
+insert into rules (name) values
+	('Смотреть список заявок'), 
+	('Добавить заявку'), 
+	('Редактировать свою заявку'), 
+	('Редактировать любую заявку'), 
+	('Удалить свою заявку'), 
+	('Удалить любую заявку'), 
+	('Изменить состояние заявки'),
+	('Удалить пользователя');
+	
+insert into roles_rules (role_id, rule_id) values 
+	(1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6), (1, 7), (1, 8),
+	(2, 1), (2, 2), (2, 3), (2, 5), (2, 7),
+	(3, 2), (3, 3), (3, 5);
+	
+insert into users (name, mail, role_id) values 
+	('Иванов', 'ivanov@mail.ru', 1),
+	('Петров', 'petrov@gmail.com', 2),
+	('Семенова М.С.', 'semenova_ms@yandex.ru', 3),
+	('Попов Виктор', 'v-popov@inbox.ru', 3),
+	('Степанов А.А.', 'aastep@yahoo.com', 3);
+	
+insert into items (user_id, state_id, category_id, name, created, description) values 
+	(3, 1, 1, 'Заявка от Семеновой', '2020-02-01', 'Прошу выполнить несколько работ'),
+	(4, 1, 2, 'Срочная заявка от Попова', '2020-05-10', 'Прошу срочно разобраться с моей проблемой');
+	
+insert into attaches (item_id, filename, descr) values 
+	(1, '/files/2020/02/spravka.jpg', 'Скан справки'),
+	(2, '/files/2020/05/passport.jpg', 'Паспорт объекта'),
+	(2, '/files/2020/05/photo_obj.jpg', 'Фото объекта');
+	 
+insert into comments (item_id, user_id, created, content) values
+	(1, 5, '2020-03-01', 'Удалось решить вопрос ?'),
+	(2, 5, '2020-05-15', 'Подскажите, как вам удалось ускорить выполнение заявки. С уважением, Степанов А.А.');
