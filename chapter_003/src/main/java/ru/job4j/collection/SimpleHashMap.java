@@ -23,12 +23,6 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Entry<K, V>> 
         data = new HashMapElement[16];
     }
 
-    private void expand() {
-        HashMapElement[] newData = new HashMapElement[data.length * 2];
-        System.arraycopy(data, 0, newData, 0, data.length);
-        data = newData;
-    }
-
     private int getHashCode(K key) {
         return key.hashCode();
     }
