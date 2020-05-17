@@ -41,17 +41,21 @@ public class StartUI {
     public static void main(String[] args) {
         Input input = new ConsoleInput();
         Input validate = new ValidateInput(input);
-        Store tracker = new SqlTracker();
         Consumer<String> output = System.out::println;
-        List<UserAction> actions = new ArrayList<UserAction>(Arrays.asList(
-                new CreateAction(),
-                new ShowAllAction(),
-                new ReplaceAction(),
-                new DeleteAction(),
-                new FindByIdAction(),
-                new FindByNameAction(),
-                new ExitAction()
-        ));
-        new StartUI().init(validate, tracker, actions, output);
+        try (Store tracker = new SqlTracker()) {
+            tracker.init();
+            List<UserAction> actions = new ArrayList<UserAction>(Arrays.asList(
+                    new CreateAction(),
+                    new ShowAllAction(),
+                    new ReplaceAction(),
+                    new DeleteAction(),
+                    new FindByIdAction(),
+                    new FindByNameAction(),
+                    new ExitAction()
+            ));
+            new StartUI().init(validate, tracker, actions, output);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

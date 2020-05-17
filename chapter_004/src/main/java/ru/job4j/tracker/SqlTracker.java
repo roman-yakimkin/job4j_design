@@ -1,10 +1,8 @@
 package ru.job4j.tracker;
 
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.util.List;
-import java.util.Properties;
+import java.sql.*;
+import java.util.*;
 
 /**
  * Трекер заявок с записью в БД
@@ -37,33 +35,113 @@ public class SqlTracker implements Store {
         }
     }
 
+    /**
+     * Генерация уникального ключа для заявки
+     * @return сгенерированный уникальный ключ
+     */
+    private String generateId() {
+        Random rm = new Random();
+        return String.valueOf(rm.nextLong() + System.currentTimeMillis());
+    }
+
     @Override
     public Item add(Item item) {
+        try {
+            PreparedStatement st = cn.prepareStatement("INSERT INTO items VALUES (?, ?)");
+            item.setId(generateId());
+            st.setString(1, item.getId());
+            st.setString(2, item.getName());
+            st.executeUpdate();
+            st.close();
+            return item;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public boolean replace(String id, Item item) {
+        try {
+            PreparedStatement st = cn.prepareStatement("update items set name = ? where id = ?");
+            st.setString(1, item.getName());
+            st.setString(2, item.getId());
+            st.executeUpdate();
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
     @Override
     public boolean delete(String id) {
+        try {
+            PreparedStatement st = cn.prepareStatement("delete from items where id = ?");
+            st.setString(1, id);
+            st.executeUpdate();
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
     @Override
     public List<Item> findAll() {
+        List<Item> result = new ArrayList<>();
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery("select * from items");
+            while (rs.next()) {
+                result.add(new Item(rs.getString("id"), rs.getString("name")));
+            }
+            rs.close();
+            st.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public List<Item> findByName(String key) {
+        try {
+            PreparedStatement st = cn.prepareStatement("select * from items where name = ?");
+            st.setString(1, key);
+            ResultSet rs = st.executeQuery();
+            List<Item> result = new ArrayList<>();
+            while (rs.next()) {
+                result.add(new Item(rs.getString("id"), rs.getString("name")));
+            }
+            rs.close();
+            st.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public Item findById(String id) {
+        try {
+            PreparedStatement st = cn.prepareStatement("select * from items where id = ?");
+            st.setString(1, id);
+            ResultSet rs = st.executeQuery();
+            Item result = null;
+            if (rs.next()) {
+               result = new Item(rs.getString("id"), rs.getString("name"));
+            }
+            rs.close();
+            st.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }
