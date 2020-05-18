@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -34,7 +32,7 @@ public class ImportDB {
         try (BufferedReader rd = new BufferedReader(new FileReader(dump))) {
             rd.lines().forEach((line) -> {
                 String[] content = line.split(";");
-                users.add(new User(content[0], content[1]));
+                users.add(new User(content[0].trim(), content[1].trim()));
             });
         }
         return users;
@@ -47,6 +45,9 @@ public class ImportDB {
                 cfg.getProperty("jdbc.username"),
                 cfg.getProperty("jdbc.password")
         )) {
+            try (PreparedStatement ps = cnt.prepareStatement("delete from users")) {
+                ps.execute();
+            }
             for (User user : users) {
                 try (PreparedStatement ps = cnt.prepareStatement("insert into users (name, email) values (?, ?)")) {
                     ps.setString(1, user.name);
