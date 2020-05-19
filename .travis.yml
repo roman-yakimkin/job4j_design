@@ -4,10 +4,10 @@ jdk:
   - openjdk13
 
 services:
-  - postgresql
+- postgresql
 
 before install:
-  - psql - c 'create database tracker;' -U postgres
+- psql - c 'create database tracker;' -U postgres
 
 # используем режим обычного пользователя для сборки проекта.
 sudo: false
