@@ -13,6 +13,12 @@ import java.util.*;
 public class SqlTracker implements Store {
     private Connection cn;
 
+    public SqlTracker(Connection cn) {
+        this.cn = cn;
+    }
+
+    public SqlTracker() { }
+
     public void init() {
         try (InputStream in = SqlTracker.class.getClassLoader().getResourceAsStream("app.properties")) {
             Properties config = new Properties();
@@ -48,7 +54,9 @@ public class SqlTracker implements Store {
     public Item add(Item item) {
         try {
             PreparedStatement st = cn.prepareStatement("INSERT INTO items VALUES (?, ?)");
-            item.setId(generateId());
+            if (item.getId() == null) {
+                item.setId(generateId());
+            }
             st.setString(1, item.getId());
             st.setString(2, item.getName());
             st.executeUpdate();
@@ -65,7 +73,7 @@ public class SqlTracker implements Store {
         try {
             PreparedStatement st = cn.prepareStatement("update items set name = ? where id = ?");
             st.setString(1, item.getName());
-            st.setString(2, item.getId());
+            st.setString(2, id);
             st.executeUpdate();
             st.close();
             return true;
