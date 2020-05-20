@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Properties;
 
@@ -62,6 +63,7 @@ public class SqlTrackerTest {
     @Test
     public void findAllItems() throws Exception {
         try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
+            tracker.deleteAll();
             tracker.add(new Item("1", "one"));
             tracker.add(new Item("2", "two"));
             tracker.add(new Item("3", "three"));

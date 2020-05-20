@@ -59,31 +59,40 @@ public class SqlTracker implements Store {
 
     @Override
     public Item add(Item item) {
+        PreparedStatement st = null;
         try {
-            PreparedStatement st = cn.prepareStatement("INSERT INTO items VALUES (?, ?)");
             if (item.getId() == null) {
-                item.setId(generateId());
+                st = cn.prepareStatement("INSERT INTO items VALUES (CAST (nextval('seq_items') as VARCHAR), ?)");
+                st.setString(1, item.getName());
+            } else {
+                st = cn.prepareStatement("INSERT INTO items VALUES (?, ?)");
+                st.setString(1, item.getId());
+                st.setString(2, item.getName());
             }
-            st.setString(1, item.getId());
-            st.setString(2, item.getName());
-            st.executeUpdate();
-            st.close();
-            return item;
+            boolean isAdded = (st.executeUpdate() > 0);
+            if (isAdded) {
+                return item;
+            }
         } catch (SQLException e) {
             logger.error(e.getMessage());
+        } finally {
+            try {
+                if (st != null) {
+                    st.close();
+                }
+            } catch (SQLException e) {
+                logger.error(e.getMessage());
+            }
         }
         return null;
     }
 
     @Override
     public boolean replace(String id, Item item) {
-        try {
-            PreparedStatement st = cn.prepareStatement("update items set name = ? where id = ?");
+        try (PreparedStatement st = cn.prepareStatement("update items set name = ? where id = ?")) {
             st.setString(1, item.getName());
             st.setString(2, id);
-            st.executeUpdate();
-            st.close();
-            return true;
+            return (st.executeUpdate() > 0);
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }
@@ -92,29 +101,34 @@ public class SqlTracker implements Store {
 
     @Override
     public boolean delete(String id) {
-        try {
-            PreparedStatement st = cn.prepareStatement("delete from items where id = ?");
+        try (PreparedStatement st = cn.prepareStatement("delete from items where id = ?")) {
             st.setString(1, id);
-            st.executeUpdate();
-            st.close();
-            return true;
+            return (st.executeUpdate() > 0);
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }
         return false;
     }
 
+    public void deleteAll() {
+        try {
+            PreparedStatement st = cn.prepareStatement("delete from items");
+            st.executeUpdate();
+            st.close();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
     @Override
     public List<Item> findAll() {
         List<Item> result = new ArrayList<>();
-        try {
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery("select * from items");
-            while (rs.next()) {
-                result.add(new Item(rs.getString("id"), rs.getString("name")));
+        try (Statement st = cn.createStatement()) {
+            try (ResultSet rs = st.executeQuery("select * from items")) {
+                while (rs.next()) {
+                    result.add(new Item(rs.getString("id"), rs.getString("name")));
+                }
             }
-            rs.close();
-            st.close();
             return result;
         } catch (SQLException e) {
             logger.error(e.getMessage());
@@ -124,17 +138,15 @@ public class SqlTracker implements Store {
 
     @Override
     public List<Item> findByName(String key) {
-        try {
-            PreparedStatement st = cn.prepareStatement("select * from items where name = ?");
+        try (PreparedStatement st = cn.prepareStatement("select * from items where name = ?")) {
             st.setString(1, key);
-            ResultSet rs = st.executeQuery();
-            List<Item> result = new ArrayList<>();
-            while (rs.next()) {
-                result.add(new Item(rs.getString("id"), rs.getString("name")));
+            try (ResultSet rs = st.executeQuery()) {
+                List<Item> result = new ArrayList<>();
+                while (rs.next()) {
+                    result.add(new Item(rs.getString("id"), rs.getString("name")));
+                }
+                return result;
             }
-            rs.close();
-            st.close();
-            return result;
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }
@@ -143,17 +155,15 @@ public class SqlTracker implements Store {
 
     @Override
     public Item findById(String id) {
-        try {
-            PreparedStatement st = cn.prepareStatement("select * from items where id = ?");
+        try (PreparedStatement st = cn.prepareStatement("select * from items where id = ?")) {
             st.setString(1, id);
-            ResultSet rs = st.executeQuery();
-            Item result = null;
-            if (rs.next()) {
-               result = new Item(rs.getString("id"), rs.getString("name"));
+            try (ResultSet rs = st.executeQuery()) {
+                Item result = null;
+                if (rs.next()) {
+                    result = new Item(rs.getString("id"), rs.getString("name"));
+                }
+                return result;
             }
-            rs.close();
-            st.close();
-            return result;
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }
