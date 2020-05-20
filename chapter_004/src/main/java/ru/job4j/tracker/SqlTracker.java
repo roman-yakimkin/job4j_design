@@ -20,8 +20,9 @@ public class SqlTracker implements Store {
         this.logger = logger;
     }
 
-    public SqlTracker(Connection cn) {
+    public SqlTracker(Connection cn, Logger logger) {
         this.cn = cn;
+        this.logger = logger;
     }
 
     public SqlTracker() { }
@@ -46,15 +47,6 @@ public class SqlTracker implements Store {
         if (cn != null) {
             cn.close();
         }
-    }
-
-    /**
-     * Генерация уникального ключа для заявки
-     * @return сгенерированный уникальный ключ
-     */
-    private String generateId() {
-        Random rm = new Random();
-        return String.valueOf(rm.nextLong() + System.currentTimeMillis());
     }
 
     @Override
