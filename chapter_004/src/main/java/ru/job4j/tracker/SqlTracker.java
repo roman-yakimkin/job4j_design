@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import org.apache.log4j.Logger;
+
 import java.io.InputStream;
 import java.sql.*;
 import java.util.*;
@@ -12,6 +14,11 @@ import java.util.*;
  */
 public class SqlTracker implements Store {
     private Connection cn;
+    private Logger logger;
+
+    public SqlTracker(Logger logger) {
+        this.logger = logger;
+    }
 
     public void init() {
         try (InputStream in = SqlTracker.class.getClassLoader().getResourceAsStream("app.properties")) {
@@ -55,7 +62,7 @@ public class SqlTracker implements Store {
             st.close();
             return item;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return null;
     }
@@ -70,7 +77,7 @@ public class SqlTracker implements Store {
             st.close();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return false;
     }
@@ -84,7 +91,7 @@ public class SqlTracker implements Store {
             st.close();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return false;
     }
@@ -102,7 +109,7 @@ public class SqlTracker implements Store {
             st.close();
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return null;
     }
@@ -121,7 +128,7 @@ public class SqlTracker implements Store {
             st.close();
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return null;
     }
@@ -140,7 +147,7 @@ public class SqlTracker implements Store {
             st.close();
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return null;
     }
