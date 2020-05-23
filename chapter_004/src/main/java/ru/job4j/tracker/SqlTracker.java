@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 /**
  * Трекер заявок с записью в БД
@@ -114,6 +115,12 @@ public class SqlTracker implements Store {
 
     @Override
     public List<Item> findAll() {
+//        for (int i = 0; i < 1000; i++) {
+//            for (int j = 0; j < 1000; j++) {
+//                String st = new String("Test String Test String Test String");
+//                st = null;
+//            }
+//        }
         List<Item> result = new ArrayList<>();
         try (Statement st = cn.createStatement()) {
             try (ResultSet rs = st.executeQuery("select * from items")) {
