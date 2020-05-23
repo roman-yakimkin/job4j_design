@@ -20,6 +20,10 @@ public class SqlTracker implements Store {
         this.logger = logger;
     }
 
+    public SqlTracker(Connection cn) {
+        this.cn = cn;
+    }
+
     public SqlTracker(Connection cn, Logger logger) {
         this.cn = cn;
         this.logger = logger;
