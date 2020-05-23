@@ -1,5 +1,8 @@
 package ru.job4j.tracker;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +45,8 @@ public class StartUI {
         Input input = new ConsoleInput();
         Input validate = new ValidateInput(input);
         Consumer<String> output = System.out::println;
-        try (Store tracker = new SqlTracker()) {
+        Logger logger = LogManager.getLogger(io.UsageLog4j.class.getName());
+        try (Store tracker = new SqlTracker(logger)) {
             tracker.init();
             List<UserAction> actions = new ArrayList<UserAction>(Arrays.asList(
                     new CreateAction(),

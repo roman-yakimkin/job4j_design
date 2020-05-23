@@ -1,11 +1,14 @@
 package ru.job4j.tracker;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Properties;
 
@@ -32,7 +35,8 @@ public class SqlTrackerTest {
 
     @Test
     public void createItem() throws Exception {
-        try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
+        Logger logger = LogManager.getLogger(io.UsageLog4j.class.getName());
+        try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()), logger)) {
             tracker.add(new Item("id", "name"));
             assertThat(tracker.findByName("name").size(), is(1));
         }
@@ -40,7 +44,8 @@ public class SqlTrackerTest {
 
     @Test
     public void replaceItem() throws Exception {
-        try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
+        Logger logger = LogManager.getLogger(io.UsageLog4j.class.getName());
+        try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()), logger)) {
             tracker.add(new Item("id", "name"));
             tracker.replace("id", new Item(null, "replaced"));
             assertThat(tracker.findByName("name").size(), is(0));
@@ -51,7 +56,8 @@ public class SqlTrackerTest {
 
     @Test
     public void deleteItem() throws Exception {
-        try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
+        Logger logger = LogManager.getLogger(io.UsageLog4j.class.getName());
+        try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()), logger)) {
             tracker.add(new Item("id", "name"));
             assertThat(tracker.findByName("name").size(), is(1));
             tracker.delete("id");
@@ -61,7 +67,9 @@ public class SqlTrackerTest {
 
     @Test
     public void findAllItems() throws Exception {
-        try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
+        Logger logger = LogManager.getLogger(io.UsageLog4j.class.getName());
+        try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()), logger)) {
+            tracker.deleteAll();
             tracker.add(new Item("1", "one"));
             tracker.add(new Item("2", "two"));
             tracker.add(new Item("3", "three"));
