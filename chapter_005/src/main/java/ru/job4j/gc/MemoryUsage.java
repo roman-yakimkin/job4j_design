@@ -1,5 +1,9 @@
 package ru.job4j.gc;
 
+import java.lang.management.GarbageCollectorMXBean;
+import java.lang.management.ManagementFactory;
+import java.util.List;
+
 /**
  * Класс для демонстрации работы сборщика мусора
  * @author Roman Yakimkin (r.yakimkin@yandex.ru)
@@ -28,10 +32,24 @@ public class MemoryUsage {
     }
 
     public static void main(String[] args) {
+        try {
+            List<GarbageCollectorMXBean> gcMxBeans = ManagementFactory.getGarbageCollectorMXBeans();
+
+            for (GarbageCollectorMXBean gcMxBean : gcMxBeans) {
+                System.out.println(gcMxBean.getName());
+                System.out.println(gcMxBean.getObjectName());
+            }
+
+        } catch (RuntimeException re) {
+            throw re;
+        } catch (Exception exp) {
+            throw new RuntimeException(exp);
+        }
+
         System.out.println("start ...");
         User user;
-        for (int i = 0; i < 10000; i++) {
-            for (int j = 0; j < 1000; j++) {
+        for (int i = 0; i < 2000; i++) {
+            for (int j = 0; j < 2000; j++) {
                 user = new User("Test user #" + i);
                 user = null;
             }
