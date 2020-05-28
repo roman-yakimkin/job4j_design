@@ -4,7 +4,6 @@ import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -21,7 +20,7 @@ import static org.quartz.TriggerBuilder.newTrigger;
 public class AlertRabbit {
     public static void main(String[] args) {
         Properties cfg = new Properties();
-        try (FileInputStream in = new FileInputStream("./chapter_004/src/main/resources/rabbit.properties")) {
+        try (FileInputStream in = new FileInputStream("./rabbit.properties")) {
             cfg.load(in);
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
             scheduler.start();
