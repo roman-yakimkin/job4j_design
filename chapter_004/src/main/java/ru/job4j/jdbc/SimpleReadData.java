@@ -31,7 +31,7 @@ public class SimpleReadData {
             }
             rs.close();
             st.close();
-7        } catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
