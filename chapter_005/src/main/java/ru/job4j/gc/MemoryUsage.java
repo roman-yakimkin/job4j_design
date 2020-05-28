@@ -30,7 +30,7 @@ public class MemoryUsage {
     public static void main(String[] args) {
         System.out.println("start ...");
         User user;
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 1000000; i++) {
             for (int j = 0; j < 1000; j++) {
                 user = new User("Test user #" + i);
                 user = null;
