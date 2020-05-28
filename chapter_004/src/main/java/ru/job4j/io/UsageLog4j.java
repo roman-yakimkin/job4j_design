@@ -13,10 +13,14 @@ public class UsageLog4j {
     private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
 
     public static void main(String[] args) {
-        LOG.trace("trace message");
-        LOG.debug("debug message");
-        LOG.info("info message");
-        LOG.warn("warn message");
-        LOG.error("error message");
+        char varChar = 'A';
+        int varInt = 1000;
+        long varLong = 999999999999999999L;
+        byte varByte = -123;
+        boolean varBoolean = true;
+        short varShort = 12345;
+        float varFloat = 123456.78F;
+        double varDouble = 123456789012.34;
+        LOG.debug("There art some variables of different types: {}, {}, {}, {}, {}, {}, {}, {}", varChar, varInt, varLong, varByte, varBoolean, varShort, varFloat, varDouble);
     }
 }
