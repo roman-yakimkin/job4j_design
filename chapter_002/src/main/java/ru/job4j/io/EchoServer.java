@@ -1,14 +1,14 @@
 package ru.job4j.io;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import org.apache.log4j.PropertyConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.List;
+import java.util.Properties;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * Класс - сокет-сервер
@@ -17,7 +17,18 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 public class EchoServer {
+    private static final Logger LOG = LoggerFactory.getLogger(EchoServer.class.getName());
+
     public static void main(String[] args) {
+        String log4JPropertyFile = "./log4j.properties";
+        Properties p = new Properties();
+        try {
+            p.load(new FileInputStream(log4JPropertyFile));
+            PropertyConfigurator.configure(p);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         Pattern pattern = Pattern.compile("\\?msg=.+ HTTP");
         try (ServerSocket server = new ServerSocket(9000)) {
             while (!server.isClosed()) {
@@ -30,13 +41,15 @@ public class EchoServer {
                         System.out.println(str);
                         if (str.contains("msg=Bye ")) {
                             server.close();
+                        } else if (str.contains("msg=Exception ")) {
+                            throw new IOException("Exception is thrown by user");
                         }
                     } while (str.isEmpty());
                     out.write("HTTP/1.1 200 OK\r\n\\".getBytes());
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.debug("Exception in the chat", e);
         }
     }
 }
