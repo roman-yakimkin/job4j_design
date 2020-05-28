@@ -48,8 +48,8 @@ public class MemoryUsage {
 
         System.out.println("start ...");
         User user;
-        for (int i = 0; i < 2000; i++) {
-            for (int j = 0; j < 2000; j++) {
+        for (int i = 0; i < 1000000; i++) {
+            for (int j = 0; j < 1000; j++) {
                 user = new User("Test user #" + i);
                 user = null;
             }
