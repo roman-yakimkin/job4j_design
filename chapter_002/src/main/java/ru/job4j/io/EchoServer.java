@@ -20,14 +20,14 @@ public class EchoServer {
     private static final Logger LOG = LoggerFactory.getLogger(EchoServer.class.getName());
 
     public static void main(String[] args) {
-        String log4JPropertyFile = "./log4j.properties";
-        Properties p = new Properties();
-        try {
-            p.load(new FileInputStream(log4JPropertyFile));
-            PropertyConfigurator.configure(p);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        String log4JPropertyFile = "./log4j.properties";
+//        Properties p = new Properties();
+//        try {
+//            p.load(new FileInputStream(log4JPropertyFile));
+//            PropertyConfigurator.configure(p);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         Pattern pattern = Pattern.compile("\\?msg=.+ HTTP");
         try (ServerSocket server = new ServerSocket(9000)) {
