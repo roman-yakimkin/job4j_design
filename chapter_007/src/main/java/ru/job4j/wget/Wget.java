@@ -14,32 +14,73 @@ import java.nio.file.Paths;
  * @since 31.05.2020
  * @version 1.0
  */
-public class Wget {
+public class Wget implements Runnable {
 
-    private int kBytesPerSec;
-    private String inputFilePath;
-    private String outputDir;
+    private int kBytesPerSec = 1;
+    private String inputFilePath = "";
+    private String outputDir = "";
+    private boolean parsed = true;
 
-    private boolean parseParams(String[] args) {
+    public Wget(String[] args) {
         if (args.length != 3) {
             System.out.println("This program should have 3 arguments");
-            return false;
+            parsed = false;
+            return;
         }
         inputFilePath = args[0];
         try {
             kBytesPerSec = Integer.parseInt(args[1]);
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            return false;
+            parsed = false;
+            return;
         }
         Path od = Paths.get(args[2]);
         if (Files.exists(od) && Files.isDirectory(od)) {
             outputDir = args[2];
         } else {
             System.out.println("The output directory does not exist");
-            return false;
+            parsed = false;
         }
-        return true;
+    }
+
+    @Override
+    public void run() {
+        if (parsed) {
+            try (BufferedInputStream in = new BufferedInputStream(new URL(inputFilePath).openStream())) {
+                FileOutputStream os = new FileOutputStream(outputDir + '/' + getInputFileName());
+                byte[] dataBuffer = new byte[1024];
+                long timeStart = System.currentTimeMillis();
+                int bytesRead = in.read(dataBuffer, 0, 1024);
+                int bytesReadInSec = bytesRead;
+                long bytesReadAll = bytesRead;
+                while (bytesRead != -1) {
+                    bytesRead = in.read(dataBuffer, 0, 1024);
+                    if (bytesRead != -1) {
+                        os.write(dataBuffer, 0, bytesRead);
+                    }
+                    bytesReadInSec += bytesRead;
+                    bytesReadAll += bytesRead;
+                    if (bytesReadInSec >= kBytesPerSec * 1024) {
+                        long timeEnd = System.currentTimeMillis();
+                        long interval = timeEnd - timeStart;
+                        if (interval < 1000) {
+                            Thread.sleep(1000 - interval);
+                            System.out.format("\rLoading : %.2f Kb downloaded", (float) (bytesReadAll / 1024));
+                        }
+                        timeStart = System.currentTimeMillis();
+                        bytesReadInSec = 0;
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            System.out.println("\nDownloading completed");
+        } else {
+            System.out.println(getHelpInfo());
+        }
     }
 
     private String getInputFileName() {
@@ -56,40 +97,6 @@ public class Wget {
     }
 
     public static void main(String[] args) {
-        Wget wget = new Wget();
-        if (wget.parseParams(args)) {
-            try (BufferedInputStream in = new BufferedInputStream(new URL(wget.inputFilePath).openStream())) {
-                FileOutputStream os = new FileOutputStream(wget.outputDir + '/' + wget.getInputFileName());
-                byte[] dataBuffer = new byte[1024];
-                long timeStart = System.currentTimeMillis();
-                int bytesRead = in.read(dataBuffer, 0, 1024);
-                int bytesReadInSec = bytesRead;
-                long bytesReadAll = bytesRead;
-                while (bytesRead != -1) {
-                    bytesRead = in.read(dataBuffer, 0, 1024);
-                    if (bytesRead != -1) {
-                        os.write(dataBuffer, 0, bytesRead);
-                    }
-                    bytesReadInSec += bytesRead;
-                    bytesReadAll += bytesRead;
-                    if (bytesReadInSec >= wget.kBytesPerSec * 1024) {
-                        long timeEnd = System.currentTimeMillis();
-                        long interval = timeEnd - timeStart;
-                        if (interval < 1000) {
-                            Thread.sleep(1000 - interval);
-                            System.out.format("\rLoading : %.2f Kb downloaded", (float)(bytesReadAll / 1024));
-                        }
-                        timeStart = System.currentTimeMillis();
-                        bytesReadInSec = 0;
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        } else {
-            System.out.println(wget.getHelpInfo());
-        }
+        new Wget(args).run();
     }
 }
