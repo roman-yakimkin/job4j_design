@@ -16,29 +16,28 @@ import java.nio.file.Paths;
  */
 public class Wget implements Runnable {
 
-    private int kBytesPerSec = 1;
-    private String inputFilePath = "";
-    private String outputDir = "";
+    private final int kBytesPerSec;
+    private final String inputFilePath;
+    private final String outputDir;
     private boolean parsed = true;
 
     public Wget(String[] args) {
+        int kBytesPerSec = 1;
         if (args.length != 3) {
             System.out.println("This program should have 3 arguments");
             parsed = false;
-            return;
         }
-        inputFilePath = args[0];
+        inputFilePath = parsed ? args[0] : "";
         try {
             kBytesPerSec = Integer.parseInt(args[1]);
         } catch (NumberFormatException e) {
             e.printStackTrace();
             parsed = false;
-            return;
         }
+        this.kBytesPerSec = kBytesPerSec;
         Path od = Paths.get(args[2]);
-        if (Files.exists(od) && Files.isDirectory(od)) {
-            outputDir = args[2];
-        } else {
+        outputDir = (Files.exists(od) && Files.isDirectory(od)) ? args[2] : "";
+        if (outputDir.equals("")) {
             System.out.println("The output directory does not exist");
             parsed = false;
         }
