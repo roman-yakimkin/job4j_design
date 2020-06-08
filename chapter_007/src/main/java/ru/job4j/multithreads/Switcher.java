@@ -19,7 +19,7 @@ public class Switcher {
                             e.printStackTrace();
                         }
                         System.out.println("Thread A");
-                        barrier.doneAll();
+                        barrier.doneSlave();
                     }
                 }, "Thread A"
         );
@@ -33,7 +33,7 @@ public class Switcher {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        barrier.doneAll();
+                        barrier.doneMaster();
                     }
                 }, "Thread B"
         );

@@ -35,9 +35,13 @@ public class MasterSlaveBarrier {
         }
     }
 
-    public synchronized void doneAll() {
-        isMaster = !isMaster;
-        isSlave = !isSlave;
+    public synchronized void doneMaster() {
+        isMaster = false;
+        notifyAll();
+    }
+
+    public synchronized void doneSlave() {
+        isSlave = false;
         notifyAll();
     }
 }
