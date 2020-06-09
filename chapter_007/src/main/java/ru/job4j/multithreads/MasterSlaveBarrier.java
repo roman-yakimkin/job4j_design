@@ -37,10 +37,12 @@ public class MasterSlaveBarrier {
 
     public synchronized void doneMaster() {
         isMaster = false;
+        isSlave = true;
         notifyAll();
     }
 
     public synchronized void doneSlave() {
+        isMaster = true;
         isSlave = false;
         notifyAll();
     }
