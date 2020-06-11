@@ -4,3 +4,4 @@
 [![codecov](https://codecov.io/gh/roman-yakimkin/job4j_design/branch/master/graph/badge.svg)](https://codecov.io/gh/roman-yakimkin/job4j_design)
 Объединение зафиксированных изменений !!!
 New changes to this file made in job_297265
+New changes to this file made in job_297264
