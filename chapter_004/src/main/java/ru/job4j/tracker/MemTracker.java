@@ -21,9 +21,9 @@ public class MemTracker {
      * Генерация уникального ключа для заявки
      * @return сгенерированный уникальный ключ
      */
-    private String generateId() {
+    private int generateId() {
         Random rm = new Random();
-        return String.valueOf(rm.nextLong() + System.currentTimeMillis());
+        return rm.nextInt();
     }
 
     /**
@@ -50,7 +50,7 @@ public class MemTracker {
      * @param id - идентификатор заявки
      * @return - возвращаемая заявка
      */
-    public Item findById(String id) {
+    public Item findById(int id) {
         int index = indexOf(id);
         return (index == -1) ? null : this.items.get(index);
     }
@@ -75,7 +75,7 @@ public class MemTracker {
      * @param id - идентификатор заявки
      * @return - индекс заявки
      */
-    private int indexOf(String id) {
+    private int indexOf(int id) {
         int result = -1;
         for (Item item : items) {
             if (item.getId().equals(id)) {
@@ -92,7 +92,7 @@ public class MemTracker {
      * @param item - новая заявка
      * @return - истина, если произошла замена
      */
-    public boolean replace(String id, Item item) {
+    public boolean replace(int id, Item item) {
         int index = indexOf(id);
         boolean result = false;
         if (index != -1) {
@@ -108,7 +108,7 @@ public class MemTracker {
      * @param id - id заявки
      * @return истина, если произошло удаление
      */
-    public boolean delete(String id) {
+    public boolean delete(int id) {
         int index = indexOf(id);
         boolean result = false;
         if (index != -1) {

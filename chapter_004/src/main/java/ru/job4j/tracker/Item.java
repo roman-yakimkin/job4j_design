@@ -1,5 +1,6 @@
 package ru.job4j.tracker;
 
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
@@ -8,12 +9,16 @@ import java.util.Objects;
  * @since 26.01.2020
  * @version 1.0
  */
+@Entity
+@Table(name = "items")
 public class Item {
 
     /**
      * идентификатор заявки
      */
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     /**
      * Название заявки
@@ -33,7 +38,7 @@ public class Item {
      * @param id - идентификатор заявки
      * @param name - имя заявки
      */
-    public Item(String id, String name) {
+    public Item(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -43,15 +48,17 @@ public class Item {
      * @param item - исходная заявка
      */
     public Item(Item item) {
-        this.id = item.getId();
-        this.name = item.getName();
+        if (item != null) {
+            this.id = item.getId();
+            this.name = item.getName();
+        }
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

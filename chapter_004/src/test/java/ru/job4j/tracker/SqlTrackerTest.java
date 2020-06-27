@@ -36,7 +36,7 @@ public class SqlTrackerTest {
     @Test
     public void createItem() throws Exception {
         try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
-            tracker.add(new Item("id", "name"));
+            tracker.add(new Item(1, "name"));
             assertThat(tracker.findByName("name").size(), is(1));
         }
     }
@@ -44,20 +44,20 @@ public class SqlTrackerTest {
     @Test
     public void replaceItem() throws Exception {
         try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
-            tracker.add(new Item("id", "name"));
-            tracker.replace("id", new Item(null, "replaced"));
+            tracker.add(new Item(1, "name"));
+            tracker.replace(1, new Item(null, "replaced"));
             assertThat(tracker.findByName("name").size(), is(0));
             assertThat(tracker.findByName("replaced").size(), is(1));
-            assertThat(tracker.findById("id"), is(new Item("id", "replaced")));
+            assertThat(tracker.findById(1), is(new Item(1, "replaced")));
         }
     }
 
     @Test
     public void deleteItem() throws Exception {
         try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
-            tracker.add(new Item("id", "name"));
+            tracker.add(new Item(1, "name"));
             assertThat(tracker.findByName("name").size(), is(1));
-            tracker.delete("id");
+            tracker.delete(1);
             assertThat(tracker.findByName("name").size(), is(0));
         }
     }
@@ -66,13 +66,13 @@ public class SqlTrackerTest {
     public void findAllItems() throws Exception {
         try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
             tracker.deleteAll();
-            tracker.add(new Item("1", "one"));
-            tracker.add(new Item("2", "two"));
-            tracker.add(new Item("3", "three"));
+            tracker.add(new Item(1, "one"));
+            tracker.add(new Item(2, "two"));
+            tracker.add(new Item(3, "three"));
             List<Item> expected = List.of(
-                    new Item("1", "one"),
-                    new Item("2", "two"),
-                    new Item("3", "three")
+                    new Item(1, "one"),
+                    new Item(2, "two"),
+                    new Item(3, "three")
             );
             assertThat(tracker.findAll(), is(expected));
         }
