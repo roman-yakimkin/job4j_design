@@ -25,6 +25,9 @@ public class Item {
      */
     private String name;
 
+    public Item() {
+    }
+
     /**
      * Конструктор заявки
      * @param name - название заявки
