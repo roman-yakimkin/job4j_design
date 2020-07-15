@@ -1,5 +1,6 @@
 package ru.job4j.tracker;
 
+import org.apache.log4j.Logger;
 import java.util.function.Consumer;
 
 /**
@@ -17,9 +18,13 @@ public class FindByIdAction implements UserAction {
     @Override
     public boolean execute(Input input, Store tracker, Consumer<String> output) {
         String id = input.askStr("Input item's id: ");
-        Item item = tracker.findById(Integer.parseInt(id));
-        if (item != null) {
-            output.accept("ID: " + item.getId() + ", name: " + item.getName());
+        try {
+            Item item = tracker.findById(Integer.parseInt(id));
+            if (item != null) {
+                output.accept("ID: " + item.getId() + ", name: " + item.getName());
+            }
+        } catch (NumberFormatException e) {
+            output.accept("You should input a numeric value");
         }
         return true;
     }

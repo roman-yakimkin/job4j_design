@@ -2,6 +2,7 @@ package ru.job4j.tracker;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,34 +17,37 @@ import java.util.function.Consumer;
  */
 public class Main {
     public static void main(String[] args) {
-        Context context = new Context();
-        context.reg(ConsoleInput.class);
-        Input validate = new ValidateInput(context.get(ConsoleInput.class));
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 
-        context.reg(CreateAction.class);
-        context.reg(ShowAllAction.class);
-        context.reg(ReplaceAction.class);
-        context.reg(DeleteAction.class);
-        context.reg(FindByIdAction.class);
-        context.reg(FindByNameAction.class);
-        context.reg(ExitAction.class);
+        context.register(ConsoleInput.class);
+        context.register(ValidateInput.class);
 
-        context.reg(StartUI.class);
+        context.register(CreateAction.class);
+        context.register(ShowAllAction.class);
+        context.register(ReplaceAction.class);
+        context.register(DeleteAction.class);
+        context.register(FindByIdAction.class);
+        context.register(FindByNameAction.class);
+        context.register(ExitAction.class);
+
+        context.register(StartUI.class);
+        Logger logger = LogManager.getLogger(io.UsageLog4j.class.getName());
+        context.register(SqlTracker.class);
+        context.refresh();
 
         Consumer<String> output = System.out::println;
-        Logger logger = LogManager.getLogger(io.UsageLog4j.class.getName());
-        try (Store tracker = new SqlTracker(logger)) {
+        try (Store tracker = context.getBean(SqlTracker.class)) {
             tracker.init();
             List<UserAction> actions = new ArrayList<UserAction>(Arrays.asList(
-                    context.get(CreateAction.class),
-                    context.get(ShowAllAction.class),
-                    context.get(ReplaceAction.class),
-                    context.get(DeleteAction.class),
-                    context.get(FindByIdAction.class),
-                    context.get(FindByNameAction.class),
-                    context.get(ExitAction.class)
+                    context.getBean(CreateAction.class),
+                    context.getBean(ShowAllAction.class),
+                    context.getBean(ReplaceAction.class),
+                    context.getBean(DeleteAction.class),
+                    context.getBean(FindByIdAction.class),
+                    context.getBean(FindByNameAction.class),
+                    context.getBean(ExitAction.class)
             ));
-            context.get(StartUI.class).init(validate, tracker, actions, output);
+            context.getBean(StartUI.class).init(context.getBean(ValidateInput.class), tracker, actions, output);
         } catch (Exception e) {
             e.printStackTrace();
         }
