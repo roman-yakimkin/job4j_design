@@ -19,7 +19,6 @@ public class Main {
         Context context = new Context();
         context.reg(ConsoleInput.class);
         Input validate = new ValidateInput(context.get(ConsoleInput.class));
-//        context.reg(ValidateInput.class);
 
         context.reg(CreateAction.class);
         context.reg(ShowAllAction.class);
