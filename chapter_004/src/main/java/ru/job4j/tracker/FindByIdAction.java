@@ -1,6 +1,8 @@
 package ru.job4j.tracker;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
+
 import java.util.function.Consumer;
 
 /**
@@ -9,6 +11,7 @@ import java.util.function.Consumer;
  * @since 02.02.2020
  * @version 1.0
  */
+@Component
 public class FindByIdAction implements UserAction {
     @Override
     public String name() {

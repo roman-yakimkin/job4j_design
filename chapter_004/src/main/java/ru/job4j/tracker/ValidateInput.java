@@ -1,11 +1,14 @@
 package ru.job4j.tracker;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Циклический консольный ввод с проверкой значений
  * @author Roman Yakimkin (r.yakimkin@yandex.ru)
  * @since 06.02.2020
  * @version 1.0
  */
+@Component
 public class ValidateInput implements Input {
 
     private final Input input;

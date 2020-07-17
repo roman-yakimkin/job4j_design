@@ -18,21 +18,8 @@ import java.util.function.Consumer;
 public class Main {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-
-        context.register(ConsoleInput.class);
-        context.register(ValidateInput.class);
-
-        context.register(CreateAction.class);
-        context.register(ShowAllAction.class);
-        context.register(ReplaceAction.class);
-        context.register(DeleteAction.class);
-        context.register(FindByIdAction.class);
-        context.register(FindByNameAction.class);
-        context.register(ExitAction.class);
-
-        context.register(StartUI.class);
+        context.scan("ru.job4j.tracker");
         Logger logger = LogManager.getLogger(io.UsageLog4j.class.getName());
-        context.register(SqlTracker.class);
         context.refresh();
 
         Consumer<String> output = System.out::println;
