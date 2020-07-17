@@ -6,6 +6,8 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -15,6 +17,8 @@ import java.util.List;
  * @since 27.06.2020
  * @version 1.0
  */
+@Component
+@Scope("prototype")
 public class HbmTracker implements Store {
 
     private final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()

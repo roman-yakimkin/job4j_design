@@ -2,6 +2,7 @@ package ru.job4j.tracker;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.function.Consumer;
  * @version 2.0
  */
 @Component
+@Scope("prototype")
 public class StartUI {
     /**
      * Инициализация и цикл работы консольного интерфейса

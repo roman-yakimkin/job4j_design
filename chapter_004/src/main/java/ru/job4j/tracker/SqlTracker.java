@@ -2,6 +2,7 @@ package ru.job4j.tracker;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
@@ -15,6 +16,7 @@ import java.util.*;
  * @version 1.0
  */
 @Component
+@Scope("prototype")
 public class SqlTracker implements Store {
     private Connection cn;
 
