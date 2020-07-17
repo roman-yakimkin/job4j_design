@@ -43,26 +43,4 @@ public class StartUI {
             output.accept(actions.indexOf(action) + ". " + action.name());
         }
     }
-
-//    public static void main(String[] args) {
-//        Input input = new ConsoleInput();
-//        Input validate = new ValidateInput(input);
-//        Consumer<String> output = System.out::println;
-//        Logger logger = LogManager.getLogger(io.UsageLog4j.class.getName());
-//        try (Store tracker = new SqlTracker(logger)) {
-//            tracker.init();
-//            List<UserAction> actions = new ArrayList<UserAction>(Arrays.asList(
-//                    new CreateAction(),
-//                    new ShowAllAction(),
-//                    new ReplaceAction(),
-//                    new DeleteAction(),
-//                    new FindByIdAction(),
-//                    new FindByNameAction(),
-//                    new ExitAction()
-//            ));
-//            new StartUI().init(validate, tracker, actions, output);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 }
